@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Septa Chatbot</title>
+</head>
+<body>
+
+<script>
+
+    (function() {
+    // Create and style elements
+    var button = document.createElement('button');
+    var chatbox = document.createElement('div');
+    var chatHeader = document.createElement('div');
+    var expandButton = document.createElement('button');
+    var closeButton = document.createElement('button');
+    var chatContent = document.createElement('div');
+    var inputArea = document.createElement('div');
+    var input = document.createElement('input');
+    var sendButton = document.createElement('button');
+
+    button.innerHTML = 'Ask Septa';
+    button.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#007bff;color:white;border:none;border-radius:25px;padding:10px 20px;font-size:16px;cursor:pointer;z-index:1000;';
+    chatbox.style.cssText = 'display:none;position:fixed;bottom:80px;right:20px;width:300px;height:400px;background:white;border:1px solid #ddd;border-radius:10px;z-index:1000;transition:all 0.3s ease;display:flex;flex-direction:column;';
+    chatHeader.style.cssText = 'display:flex;justify-content:flex-end;padding:5px;background:#f8f9fa;border-bottom:1px solid #ddd;border-radius:10px 10px 0 0;';
+    expandButton.innerHTML = '&#x26F6;';
+    expandButton.style.cssText = 'background:none;border:none;cursor:pointer;font-size:16px;margin-right:5px;';
+    closeButton.innerHTML = '&times;';
+    closeButton.style.cssText = 'background:none;border:none;cursor:pointer;font-size:20px;';
+    chatContent.style.cssText = 'flex-grow:1;overflow-y:auto;padding:10px;';
+    inputArea.style.cssText = 'display:flex;padding:10px;border-top:1px solid #ddd;';
+    input.style.cssText = 'flex-grow:1;margin-right:10px;padding:5px;';
+    input.placeholder = 'Type your question...';
+    sendButton.innerHTML = 'Send';
+    sendButton.style.cssText = 'background:#007bff;color:white;border:none;border-radius:5px;padding:5px 10px;cursor:pointer;';
+
+    // Assemble elements
+    chatHeader.appendChild(expandButton);
+    chatHeader.appendChild(closeButton);
+    chatbox.appendChild(chatHeader);
+    chatbox.appendChild(chatContent);
+    inputArea.appendChild(input);
+    inputArea.appendChild(sendButton);
+    chatbox.appendChild(inputArea);
+    document.body.appendChild(button);
+    document.body.appendChild(chatbox);
+
+    // Toggle chatbox
+    button.onclick = function() {
+        chatbox.style.display = chatbox.style.display === 'none' ? 'flex' : 'none';
+    };
+
+    // Expand/collapse chatbox
+    var isExpanded = false;
+    expandButton.onclick = function() {
+        if (!isExpanded) {
+            chatbox.style.width = '100%';
+            chatbox.style.height = '100%';
+            chatbox.style.top = '0';
+            chatbox.style.left = '0';
+            chatbox.style.right = '0';
+            chatbox.style.bottom = '0';
+            chatbox.style.borderRadius = '0';
+            expandButton.innerHTML = '&#x26F7;';
+        } else {
+            chatbox.style.width = '300px';
+            chatbox.style.height = '400px';
+            chatbox.style.top = 'auto';
+            chatbox.style.left = 'auto';
+            chatbox.style.right = '20px';
+            chatbox.style.bottom = '80px';
+            chatbox.style.borderRadius = '10px';
+            expandButton.innerHTML = '&#x26F6;';
+        }
+        isExpanded = !isExpanded;
+    };
+
+    // Close chatbox
+    closeButton.onclick = function() {
+        chatbox.style.display = 'none';
+        if (isExpanded) {
+            expandButton.click(); // Reset to small size when closing
+        }
+    };
+
+    // Generate a unique conversation ID
+    var conversationId = 'conv_' + Date.now();
+
+    // Send message function
+    function sendMessage() {
+        var message = input.value.trim();
+        if (message) {
+            addMessage('You: ' + message);
+            fetch('http://localhost:9889/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    type: 'English',
+                    question: message,
+                    conversationId: conversationId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result) {
+                    addMessage('Septa: ' + data.result);
+                } else {
+                    addMessage('Septa: Sorry, I couldn\'t process your request.');
+                }
+            })
+            .catch(() => addMessage('Septa: Sorry, I encountered an error. Please try again.'));
+            input.value = '';
+        }
+    }
+
+    // Add message to chat
+    function addMessage(message) {
+        var p = document.createElement('p');
+        p.textContent = message;
+        chatContent.appendChild(p);
+        chatContent.scrollTop = chatContent.scrollHeight;
+    }
+
+    // Event listeners
+    sendButton.onclick = sendMessage;
+    input.onkeypress = function(e) {
+        if (e.key === 'Enter') sendMessage();
+    };
+})();
+
+</script>
+
+</body>
+</html>
