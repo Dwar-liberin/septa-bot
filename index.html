@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./main.js"></script>
+</head>
+
+<body>
+
+    <script>
+        const config = {
+
+            client_id: '12345',
+            client_name: 'exampleClient',
+            access_level: 1,  // Set to 0 or 1 depending on your requirement
+            url: 'https://api.septa.com/llm',  // Required if access_level is 1
+            // Array of standard questions
+            standardQuestions: [
+                "What are the working hours?",
+                "How do I reset my password?",
+                "How do I contact customer support?",
+                "Can I cancel my subscription?"
+            ],
+
+            Theme: {
+                colorCode: "#27ae60",
+                headerColor: "#1abc9c",
+                textColor: "#ffffff",
+                backgroundColor: "#ecf0f1",
+                inputBorderColor: "#16a085",
+                buttonSize: "18px",
+                borderRadius: "16px",
+            },
+
+            // LLM-specific configuration (optional)
+            llm: {
+                model: 'gpt-3', // Can specify which model to use
+                language: 'en', // Language of the conversation
+            }
+
+        };
+
+
+
+        const septaChat = new SeptaChatbox(config);
+    </script>
+
+
+
+</body>
+
+</html>
