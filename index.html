@@ -16,7 +16,7 @@
             client_id: '12345',
             client_name: 'exampleClient',
             access_level: 1,  // Set to 0 or 1 depending on your requirement
-            url: 'https://api.septa.com/llm',  // Required if access_level is 1
+            url: 'http://192.168.1.3:9889/process',  // Required if access_level is 1
             // Array of standard questions
             standardQuestions: [
                 "What are the working hours?",
@@ -32,7 +32,7 @@
                 backgroundColor: "#ecf0f1",
                 inputBorderColor: "#16a085",
                 buttonSize: "18px",
-                borderRadius: "16px",
+                borderRadius: "6px",
             },
 
             // LLM-specific configuration (optional)
