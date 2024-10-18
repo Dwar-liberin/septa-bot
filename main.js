@@ -23,6 +23,8 @@ class SeptaChatbox {
     this.fontFamily = config.theme?.fontFamily || "Roboto";
     this.defaultOption = config.defaultOption;
     this.selection = this.defaultOption;
+    this.systemMessage =
+      "output:- output should be chart should be height 200px width 300px and div id is always 'myChart'";
 
     // Optional Parameters for Theme
     this.theme = config.theme || {
@@ -185,11 +187,11 @@ class SeptaChatbox {
     `;
 
     // Generate a unique ID for the chart
-    const uniqueChartId = `barchart_material_${Date.now()}`; // Unique ID based on timestamp
+    const uniqueChartId = `myChart_${Date.now()}`; // Unique ID based on timestamp
 
-    // Replace the ID in the htmlString with the unique ID
+    // // Replace the ID in the htmlString with the unique ID
     graph.innerHTML = htmlString.replace(
-      /id="barchart_material"/,
+      /id="myChart"/,
       `id="${uniqueChartId}"`
     );
 
@@ -221,7 +223,7 @@ class SeptaChatbox {
         // If it's an inline script, execute it
         // newScript.textContent = scripts[i].innerHTML;
         newScript.textContent = scripts[i].innerHTML.replace(
-          /barchart_material/g, // Replace old ID with new unique ID
+          /myChart/g, // Replace old ID with new unique ID
           uniqueChartId
         );
 
@@ -524,59 +526,239 @@ class SeptaChatbox {
     sound.play();
   }
 
+  // // Send message function
+  // sendMessage() {
+  //   let type = "English";
+
+  //   if (this.selection !== "Text") {
+  //     type = this.selection;
+  //   } else {
+  //     type = "English";
+  //   }
+
+  //   let message = this.input.value.trim();
+  //   const actualMessage = message;
+  //   if (this.selection === "Chart") {
+  //     message = message + this.systemMessage;
+  //   }
+
+  //   if (!message.length) {
+  //     return false;
+  //   }
+
+  //   this.questionBox.style.display = "none"; // Remove the already question suggestion in the chatbox.
+  //   if (message) {
+  //     this.addMessage(`${actualMessage}`, "me");
+  //     const thinkingMessage = this.addMessage("Thinking...", "septa-thinking");
+  //     const requestUrl =
+  //       this.access_level === 1
+  //         ? this.url
+  //         : `https://${this.client_name}.septa.com`;
+
+  //     fetch(requestUrl, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization:
+  //           "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxZDBxeEQ1ZjRKelFFV0x4SnFSTkN2clZ1UFI3WF9PU085aUs4M3YwQlhzIn0.eyJleHAiOjE3MjkyMzgxNDEsImlhdCI6MTcyOTIzNzg0MSwianRpIjoiMjI5MWI2OTUtMTJlNi00MTBjLTgzMzMtNDFhOTRkYjI4YzZhIiwiaXNzIjoiaHR0cHM6Ly9zdGFnaW5nLmF1dGgubHR0bC5pbi9yZWFsbXMvc3RhZ2luZy1zZXB0YSIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIyNjE1MTMwOS0xNjNhLTQ5ZWMtODAwZC1mN2EyZWZhYjI4NTMiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJzdGFnaW5nLXNlcHRhIiwic2Vzc2lvbl9zdGF0ZSI6IjdmY2ZkYmRkLTdiNWMtNGUxMy05YzhjLTE4MTk1ZmM1MjI4NSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9zdGFnaW5nLnNlcHRhLmxpdmUvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1zdGFnaW5nLXNlcHRhIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsInNpZCI6IjdmY2ZkYmRkLTdiNWMtNGUxMy05YzhjLTE4MTk1ZmM1MjI4NSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic3RhZ2luZ0BsaWJlcmludGVjaG5vbG9naWVzLmNvbSJ9.s03u0IA9MWtuDbvjeAHKhKNlqjzwJ_rqfSX4mI0X4hCoayW1ixkUXuP02CcFbm0U6-hhzgAyV3O0ycz3qc3FxCTdfykqQM9xtbhFGMdBixsU3WXI4TEe2fhQ0sLZ2FXlysQbW3Ebb-sY_5KTnh_6LK-99_onkqf6RFkoWku7OSv74_wW_M5fSSP2henieP6hCFKflnu0ibBK0UtMGF7RYe6enJFFRJMHEvfVKi3zxhPO8sovzE4BFtH5hbqG21LQmASJjOZgafeEssROKZvrYFegRNR0sK3rjn3_T0dYhOx2CNTASabiXoNe-K2sXNviFw8oIHNdyis5Q4L7H9Ms0w",
+  //       },
+  //       body: JSON.stringify({
+  //         type: type,
+  //         question: message,
+  //         conversationId: this.conversationId || "conv_" + Date.now(),
+  //       }),
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         if (data.result) {
+  //           this.removeMessage(thinkingMessage); // Remove the "thinking" state
+  //           if (this.selection === "Text") {
+  //             this.addMessage(data.result, "septa");
+  //           } else if (this.selection === "Table") {
+  //             this.handleTableResponse(data.result); // Handle Table response
+  //           } else if (this.selection === "Chart") {
+  //             this.handleChartResponse(data.result); // Handle Chart response
+  //           }
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         this.removeMessage(thinkingMessage); // Remove the "thinking" state
+  //         this.addMessage(
+  //           "Sorry, I'm having trouble understanding your question.",
+  //           "septa"
+  //         );
+  //       });
+  //     this.input.value = "";
+  //     this.input.style.overflowY = "hidden"; // Disable vertical scrollbar
+  //     this.input.style.height = "auto"; // Adjust the height to fit the content
+  //   }
+  // }
+
   // Send message function
-  sendMessage() {
-    const message = this.input.value.trim();
+  async sendMessage() {
+    let message = this.input.value.trim();
+    this.input.value = "";
+    this.input.style.overflowY = "hidden"; // Disable vertical scrollbar
+    this.input.style.height = "auto"; // Adjust the height to fit the content
+
+    let type = "English";
+    if (this.selection !== "Text") {
+      type = this.selection;
+    } else {
+      type = "English";
+    }
+
+    const actualMessage = message;
+    if (this.selection === "Chart") {
+      message = message + this.systemMessage;
+    }
+
     if (!message.length) {
       return false;
     }
 
     this.questionBox.style.display = "none"; // Remove the already question suggestion in the chatbox.
     if (message) {
-      this.addMessage(`${message}`, "me");
+      this.addMessage(actualMessage, "me");
       const thinkingMessage = this.addMessage("Thinking...", "septa-thinking");
-      const requestUrl =
-        this.access_level === 1
-          ? this.url
-          : `https://${this.client_name}.septa.com`;
 
-      fetch(requestUrl, {
+      try {
+        if (!this.access_token || this.isTokenExpired(this.access_token)) {
+          const { access_token, refresh_token } = await this.getAccessToken(); // Fetch new tokens
+          this.access_token = access_token; // Save token globally
+          this.refresh_token = refresh_token; // Save refresh token globally
+        }
+        // Call the API with the access token
+        await this.callApiWithToken(
+          this.access_token,
+          message,
+          type,
+          thinkingMessage,
+          this.refresh_token
+        );
+        // const { access_token, refresh_token } = await this.getAccessToken(); // Step 1: Get Access Token
+      } catch (err) {
+        this.removeMessage(thinkingMessage);
+        this.addMessage(
+          "Sorry, I'm having trouble understanding your question.",
+          "septa"
+        );
+      }
+    }
+  }
+
+  // Function to get access token and refresh token
+  async getAccessToken() {
+    const accessUrl = "https://lap.lyttl.in/api/access.php";
+
+    const response = await fetch(accessUrl);
+
+    if (!response.ok) {
+      throw new Error("Failed to get access token");
+    }
+
+    const data = await response.json();
+    return {
+      access_token: data.access_token,
+      refresh_token: data.refresh_token,
+    };
+  }
+
+  // Function to refresh access token
+  async refreshAccessToken(refresh_token) {
+    const refreshUrl = "https://lap.lyttl.in/api/access.php";
+
+    const response = await fetch(refreshUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        action: "refresh",
+        refresh_token: refresh_token,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to refresh access token");
+    }
+
+    const data = await response.json();
+    return data.access_token;
+  }
+
+  // Function to call the API with token
+  async callApiWithToken(
+    access_token,
+    message,
+    type,
+    thinkingMessage,
+    refresh_token
+  ) {
+    const requestUrl =
+      this.access_level === 1
+        ? this.url
+        : `https://${this.client_name}.septa.com`;
+
+    try {
+      const response = await fetch(requestUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer ",
+          Authorization: `Bearer ${access_token}`,
         },
         body: JSON.stringify({
-          type: "English",
+          type: type,
           question: message,
           conversationId: this.conversationId || "conv_" + Date.now(),
         }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.result) {
-            this.removeMessage(thinkingMessage); // Remove the "thinking" state
-            if (this.selection === "Text") {
-              this.addMessage(data.result, "septa");
-            } else if (this.selection === "Table") {
-              this.handleTableResponse(JSON.parse(data.result)); // Handle Table response
-            } else if (this.selection === "Chart") {
-              this.handleChartResponse(data.result); // Handle Chart response
-            }
-          }
-        })
-        .catch((err) => {
-          console.error("err", err);
-          this.removeMessage(thinkingMessage); // Remove the "thinking" state
-          this.addMessage(
-            "Sorry, I'm having trouble understanding your question.",
-            "septa"
-          );
-        });
-      this.input.value = "";
-      this.input.style.overflowY = "hidden"; // Disable vertical scrollbar
-      this.input.style.height = "auto"; // Adjust the height to fit the content
+      });
+
+      if (response.status === 401) {
+        // If 401 Unauthorized, refresh the token and retry
+        const newAccessToken = await this.refreshAccessToken(refresh_token);
+        return this.callApiWithToken(
+          newAccessToken,
+          message,
+          type,
+          thinkingMessage,
+          refresh_token
+        );
+      }
+
+      const data = await response.json();
+      if (data.result) {
+        this.removeMessage(thinkingMessage); // Remove the "thinking" state
+        if (this.selection === "Text") {
+          this.addMessage(data.result, "septa");
+        } else if (this.selection === "Table") {
+          this.handleTableResponse(data.result); // Handle Table response
+        } else if (this.selection === "Chart") {
+          this.handleChartResponse(data.result); // Handle Chart response
+        }
+      }
+    } catch (err) {
+      console.log("Error", err);
+      this.removeMessage(thinkingMessage); // Remove the "thinking" state
+      this.addMessage(
+        "Sorry, I'm having trouble understanding your question.",
+        "septa"
+      );
     }
+  }
+
+  parseJwt(token) {
+    try {
+      return JSON.parse(atob(token.split(".")[1]));
+    } catch (e) {
+      return null;
+    }
+  }
+
+  isTokenExpired(token) {
+    const decoded = this.parseJwt(token);
+    const currentTime = Math.floor(Date.now() / 1000);
+    return decoded.exp < currentTime;
   }
 
   typeMessage(element, text, speed) {
