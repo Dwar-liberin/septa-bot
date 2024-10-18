@@ -1,0 +1,40 @@
+        const data = {
+            // result:
+            //   "<html>\n  <head>\n    <script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>\n <script type=\"text/javascript\">\n      google.charts.load('current', {'packages':['bar']});\n      google.charts.setOnLoadCallback(drawChart);\n\n      function drawChart() {\n        var data = google.visualization.arrayToDataTable([\n          ['Source', 'Lead Count'],\n          ['Facebook', 8346],\n          ['Website', 4113],\n          ['JustDial', 1239],\n          ['Call', 706],\n          ['Indiamart', 695]\n        ]);\n\n        var options = {\n          chart: {\n            title: 'Top 5 Lead Sources by Number of Leads',\n          },\n          bars: 'vertical',\n          vAxis: {format: 'decimal'},\n          height: 400,\n          colors: ['#1b9e77'],\n          legend: { position: 'none' }\n        };\n\n        var chart = new google.charts.Bar(document.getElementById('barchart_material'));\n\n        chart.draw(data, google.charts.Bar.convertOptions(options));\n      }\n    </script>\n  </head>\n  <body>\n    <div id=\"barchart_material\"></div>\n  </body>\n</html>",
+            // result: "hello this is good",
+
+            result: [
+              {
+                source_name: "facebook",
+                lead_count: 8346,
+                parent: "Meta",
+                live: "ok",
+              },
+              {
+                source_name: "website",
+                lead_count: 4113,
+                parent: "Internet",
+              },
+              {
+                source_name: "JustDial",
+                lead_count: 1239,
+                parent: "Linkedin",
+              },
+              {
+                source_name: "Call",
+                lead_count: 706,
+              },
+              {
+                source_name: "Indiamart",
+                lead_count: 695,
+                parent: "Facebook",
+              },
+            ],
+          };
+          if (this.selection === "Text") {
+            this.addMessage(data.result, "septa");
+          } else if (this.selection === "Table") {
+            this.handleTableResponse(data.result); // Handle Table response
+          } else if (this.selection === "Chart") {
+            this.chartMessageBox = this.handleChartResponse(data.result); // Handle Chart response
+          }

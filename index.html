@@ -16,7 +16,8 @@
             client_id: '12345',
             client_name: 'exampleClient',
             access_level: 1,  // Set to 0 or 1 depending on your requirement
-            url: 'http://192.168.1.3:9889/process',  // Required if access_level is 1
+            url: 'https://staging.septa.live/process',  // Required if access_level is 1
+            defaultOption: "Table",
             // Array of standard questions
             standardQuestions: [
                 "What are the working hours?",
@@ -25,7 +26,7 @@
                 "Can I cancel my subscription?"
             ],
 
-            Theme: {
+            theme: {
                 colorCode: "#27ae60",
                 headerColor: "#1abc9c",
                 textColor: "#ffffff",

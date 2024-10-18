@@ -21,9 +21,11 @@ class SeptaChatbox {
     }
     this.url = config.url || `${this.client_name}.septa.com`;
     this.fontFamily = config.theme?.fontFamily || "Roboto";
+    this.defaultOption = config.defaultOption;
+    this.selection = this.defaultOption;
 
     // Optional Parameters for Theme
-    this.theme = config.Theme || {
+    this.theme = config.theme || {
       colorCode: "#27ae60",
       headerColor: "#1abc9c",
       textColor: "#ffffff",
@@ -43,6 +45,7 @@ class SeptaChatbox {
     // Play sound and open the chatbox after a few seconds
     this.chatbox.style.display = "none";
     this.autoOpen = false;
+    this.chartMessageBox = null;
 
     document.addEventListener("click", (e) => {
       if (this.autoOpen) return false;
@@ -71,7 +74,179 @@ class SeptaChatbox {
       "+"
     )}:wght@400;500;700&display=swap`;
     link.rel = "stylesheet";
+    link.onerror = () => {
+      console.error(`Error loading font ${fontName}. Falling back to default.`);
+    };
     document.head.appendChild(link);
+  }
+
+  createDropdown(config) {
+    const dropdown = document.createElement("select");
+    const options = ["Text", "Table", "Chart"];
+
+    options.forEach((option) => {
+      const optElement = document.createElement("option");
+      optElement.value = option;
+      optElement.text = option;
+      if (option === this.defaultOption) {
+        optElement.selected = true;
+      }
+      dropdown.appendChild(optElement);
+    });
+
+    dropdown.addEventListener("change", (selection) => {
+      if (selection) {
+        this.selection = selection.target.value;
+      } else {
+        this.selection = this.selection;
+      }
+    });
+
+    dropdown.style.cssText = `
+        padding: 5px;
+        line-height: 1.5;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        box-sizing: border-box;
+        resize:none;
+        outline-color:${this.theme.inputBorderColor};
+        border: 1px solid rgb(225 225 225);
+        border-radius:${this.theme.borderRadius};
+        font-family: ${this.fontFamily ?? "Roboto"}; 
+    `;
+
+    this.inputArea.appendChild(dropdown); // Append dropdown to your UI
+  }
+
+  handleTableResponse(data) {
+    const messageBox = this.createMessageBox();
+
+    const table = document.createElement("table");
+    table.setAttribute("border", "1");
+    table.style.cssText = `
+      border-collapse: collapse;
+      width: 100%;
+      margin:5px;
+      margin-bottom:15px;
+      background: white;
+    `;
+
+    if (data.length === 0) {
+      const emptyMessage = document.createElement("p");
+      emptyMessage.innerText = "No data available.";
+      messageBox.appendChild(emptyMessage);
+      this.writeChatContent(messageBox);
+      return;
+    }
+
+    // Dynamically create headers based on the object keys
+    const headerRow = table.insertRow();
+    const headers = Object.keys(data[0]); // Use the keys from the first object as headers
+    headers.forEach((header) => {
+      const th = document.createElement("th");
+      th.innerText = this.capitalizeFirstLetter(header.replace(/_/g, " ")); // Capitalize and replace underscores
+      headerRow.appendChild(th);
+    });
+
+    // Populate rows with data
+    data.forEach((item) => {
+      const row = table.insertRow();
+
+      // Create cells dynamically for each key in the object
+      headers.forEach((key) => {
+        const cell = row.insertCell();
+        cell.style.cssText = "padding:9px";
+        cell.innerText = item[key] ?? ""; // Fill cell with the corresponding value
+      });
+    });
+
+    messageBox.appendChild(table);
+    this.writeChatContent(messageBox);
+  }
+
+  // Helper function to capitalize the first letter of a string
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  handleChartResponse(htmlString) {
+    const messageBox = this.createMessageBox();
+
+    // Create a new div for the chart
+    const graph = document.createElement("div");
+
+    // Styling for the graph container
+    graph.style.cssText = `
+        width: 310px;
+        padding: 12px;
+        background: white;
+        margin-bottom: 10px;
+    `;
+
+    // Generate a unique ID for the chart
+    const uniqueChartId = `barchart_material_${Date.now()}`; // Unique ID based on timestamp
+
+    // Replace the ID in the htmlString with the unique ID
+    graph.innerHTML = htmlString.replace(
+      /id="barchart_material"/,
+      `id="${uniqueChartId}"`
+    );
+
+    // Append the graph container to the message box
+    messageBox.appendChild(graph);
+
+    // Write the message box content to the chat UI
+    this.writeChatContent(messageBox);
+
+    // Dynamically load Google Charts and execute the scripts
+    this.loadGoogleCharts().then(() => {
+      // Modify the original script to use the unique ID
+      this.runScriptsInHtml(graph, uniqueChartId);
+    });
+
+    return messageBox; // Return the message box if needed
+  }
+
+  runScriptsInHtml(element, uniqueChartId) {
+    const scripts = element.getElementsByTagName("script");
+    for (let i = 0; i < scripts.length; i++) {
+      const newScript = document.createElement("script");
+
+      if (scripts[i].src) {
+        // If the script is an external script, load it dynamically
+        newScript.src = scripts[i].src;
+        document.head.appendChild(newScript);
+      } else {
+        // If it's an inline script, execute it
+        // newScript.textContent = scripts[i].innerHTML;
+        newScript.textContent = scripts[i].innerHTML.replace(
+          /barchart_material/g, // Replace old ID with new unique ID
+          uniqueChartId
+        );
+
+        document.body.appendChild(newScript);
+      }
+    }
+  }
+
+  loadGoogleCharts() {
+    return new Promise((resolve, reject) => {
+      if (typeof google !== "undefined" && google.charts) {
+        resolve(); // Google Charts is already loaded
+      } else {
+        const script = document.createElement("script");
+        script.src = "https://www.gstatic.com/charts/loader.js";
+        script.onload = () => {
+          google.charts.load("current", { packages: ["corechart", "bar"] });
+          google.charts.setOnLoadCallback(() => {
+            resolve(); // Charts library loaded
+          });
+        };
+        script.onerror = reject;
+        document.head.appendChild(script);
+      }
+    });
   }
 
   // Create and style element
@@ -86,6 +261,8 @@ class SeptaChatbox {
     this.input = document.createElement("textarea"); // Use textarea for multiline input
     this.sendButton = document.createElement("button");
     this.questionBox = document.createElement("div");
+    this.createDropdown(this.config);
+
     this.loadGoogleFont(this.fontFamily);
 
     // Ask Septa button
@@ -367,8 +544,7 @@ class SeptaChatbox {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJzRnh2YUNZVnF3TzBSQXZ2bzV2VGt6WmJJSUE0SFdjanJPcUw4TWtkY3d3In0.eyJleHAiOjE3MjgzODYzNjcsImlhdCI6MTcyODM4NjA2NywianRpIjoiNmYzOWNiOTQtODQ3ZS00YTY5LTkwYjgtNDBjMjJjZWE0ZDliIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9zZXB0YS1yZWFsbSIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJlNzA1MWRiOS1mNmI3LTRjNWItYjI0NS1mOTRhNDczNDA1NTYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJzZXB0YS1jbGllbnQiLCJzZXNzaW9uX3N0YXRlIjoiMmJiYjkxMTUtMjljMi00MzZmLTkwOWYtY2FmNjRmMDUxZjUzIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0Ojk4ODkiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1zZXB0YS1yZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiMmJiYjkxMTUtMjljMi00MzZmLTkwOWYtY2FmNjRmMDUxZjUzIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXB0YV9hZG1pbiJ9.EE1ElX-t1PUlYPfwZAzrNcRMJ0GLno7XQE16Jaw5F0jdrb0F5o6zJ5iPGZwcJ9lfJ960DVDxgX0xR_CDqG7aVY7O1Qy3s4a034oVkJrg4ffbQRBHCUS25HkuNxMS16uP3ZEeSvwwxwiY0nIW7QIvdjOww_UQTW3ZzF41HuXQ2MGxPUhGdy8-A56Kc7jJPO0l1sLpohbhvIA8Rt8v38mEcdW3qVEYhqYTQO1CJmh9lMXb6hVfG3Z0UNTIW7CrawMRSSD2Fn2XHgP41Q6eysQzdu4beduSmZ3o9P2JmD1wol0BApuh2fEiwkqk_MdrFfj6vuxguOHkGjuRTcNNTv6Zwg",
+          Authorization: "Bearer ",
         },
         body: JSON.stringify({
           type: "English",
@@ -380,7 +556,13 @@ class SeptaChatbox {
         .then((data) => {
           if (data.result) {
             this.removeMessage(thinkingMessage); // Remove the "thinking" state
-            this.addMessage(data.result, "septa");
+            if (this.selection === "Text") {
+              this.addMessage(data.result, "septa");
+            } else if (this.selection === "Table") {
+              this.handleTableResponse(JSON.parse(data.result)); // Handle Table response
+            } else if (this.selection === "Chart") {
+              this.handleChartResponse(data.result); // Handle Chart response
+            }
           }
         })
         .catch((err) => {
@@ -391,9 +573,6 @@ class SeptaChatbox {
             "septa"
           );
         });
-      // setTimeout(() => {
-      //   this.removeMessage(thinkingMessage); // Remove the "thinking" state
-      // }, [5000]);
       this.input.value = "";
       this.input.style.overflowY = "hidden"; // Disable vertical scrollbar
       this.input.style.height = "auto"; // Adjust the height to fit the content
@@ -430,27 +609,40 @@ class SeptaChatbox {
           display: flex;
           justify-content: center;
           color: #ffffff;
+          font-size:1rem;
       `;
     return span;
   }
 
-  // Add message to chat
-  addMessage(text, sender = "me") {
+  createMessageBox() {
     const messageBox = document.createElement("div");
+    messageBox.style.cssText = `
+    display:flex;
+    gap:8px;
+    opacity: 0; /* Initially hidden */
+    transform: translateY(20px); /* Slide up effect */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Add smooth transition */
+`;
 
     const septaIcon = this.createSeptaIcon();
+    messageBox.appendChild(septaIcon);
+    return messageBox;
+  }
 
-    messageBox.style.cssText = `
-          display:flex;
-          gap:8px;
-          opacity: 0; /* Initially hidden */
-          transform: translateY(20px); /* Slide up effect */
-          transition: opacity 0.5s ease, transform 0.5s ease; /* Add smooth transition */
-      `;
+  writeChatContent(messageBox) {
+    this.chatContent.appendChild(messageBox);
 
+    requestAnimationFrame(() => {
+      messageBox.style.opacity = "1";
+      messageBox.style.transform = "translateY(0)";
+    }, 100);
+
+    this.chatContent.scrollTop = this.chatContent.scrollHeight;
+  }
+  // Add message to chat
+  addMessage(text, sender = "me") {
+    const messageBox = this.createMessageBox();
     const message = document.createElement("div");
-    // message.textContent = text;
-    // Set initial empty text for the typing effect
     message.textContent = sender === "septa" ? "" : text;
 
     if (sender === "me") {
@@ -511,17 +703,8 @@ class SeptaChatbox {
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         `;
 
-    messageBox.appendChild(septaIcon);
     messageBox.appendChild(message);
-
-    this.chatContent.appendChild(messageBox);
-
-    requestAnimationFrame(() => {
-      messageBox.style.opacity = "1";
-      messageBox.style.transform = "translateY(0)";
-    }, 100);
-
-    this.chatContent.scrollTop = this.chatContent.scrollHeight;
+    this.writeChatContent(messageBox);
 
     if (sender === "septa") {
       this.typeMessage(message, text, 20);
