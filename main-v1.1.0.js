@@ -513,7 +513,7 @@ class SeptaChatbox {
     this.chatbox.appendChild(this.inputArea);
 
     this.chatBot.appendChild(this.button);
-    this.chatBot.appendChild(this.chatBot);
+    this.chatBot.appendChild(this.chatbox);
 
     document.body.appendChild(this.chatBot);
 
