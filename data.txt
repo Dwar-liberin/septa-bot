@@ -38,3 +38,73 @@
           } else if (this.selection === "Chart") {
             this.chartMessageBox = this.handleChartResponse(data.result); // Handle Chart response
           }
+
+
+
+            // // Send message function
+  // sendMessage() {
+  //   let type = "English";
+
+  //   if (this.selection !== "Text") {
+  //     type = this.selection;
+  //   } else {
+  //     type = "English";
+  //   }
+
+  //   let message = this.input.value.trim();
+  //   const actualMessage = message;
+  //   if (this.selection === "Chart") {
+  //     message = message + this.systemMessage;
+  //   }
+
+  //   if (!message.length) {
+  //     return false;
+  //   }
+
+  //   this.questionBox.style.display = "none"; // Remove the already question suggestion in the chatbox.
+  //   if (message) {
+  //     this.addMessage(`${actualMessage}`, "me");
+  //     const thinkingMessage = this.addMessage("Thinking...", "septa-thinking");
+  //     const requestUrl =
+  //       this.access_level === 1
+  //         ? this.url
+  //         : `https://${this.client_name}.septa.com`;
+
+  //     fetch(requestUrl, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization:
+  //           "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxZDBxeEQ1ZjRKelFFV0x4SnFSTkN2clZ1UFI3WF9PU085aUs4M3YwQlhzIn0.eyJleHAiOjE3MjkyMzgxNDEsImlhdCI6MTcyOTIzNzg0MSwianRpIjoiMjI5MWI2OTUtMTJlNi00MTBjLTgzMzMtNDFhOTRkYjI4YzZhIiwiaXNzIjoiaHR0cHM6Ly9zdGFnaW5nLmF1dGgubHR0bC5pbi9yZWFsbXMvc3RhZ2luZy1zZXB0YSIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIyNjE1MTMwOS0xNjNhLTQ5ZWMtODAwZC1mN2EyZWZhYjI4NTMiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJzdGFnaW5nLXNlcHRhIiwic2Vzc2lvbl9zdGF0ZSI6IjdmY2ZkYmRkLTdiNWMtNGUxMy05YzhjLTE4MTk1ZmM1MjI4NSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9zdGFnaW5nLnNlcHRhLmxpdmUvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiZGVmYXVsdC1yb2xlcy1zdGFnaW5nLXNlcHRhIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsInNpZCI6IjdmY2ZkYmRkLTdiNWMtNGUxMy05YzhjLTE4MTk1ZmM1MjI4NSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic3RhZ2luZ0BsaWJlcmludGVjaG5vbG9naWVzLmNvbSJ9.s03u0IA9MWtuDbvjeAHKhKNlqjzwJ_rqfSX4mI0X4hCoayW1ixkUXuP02CcFbm0U6-hhzgAyV3O0ycz3qc3FxCTdfykqQM9xtbhFGMdBixsU3WXI4TEe2fhQ0sLZ2FXlysQbW3Ebb-sY_5KTnh_6LK-99_onkqf6RFkoWku7OSv74_wW_M5fSSP2henieP6hCFKflnu0ibBK0UtMGF7RYe6enJFFRJMHEvfVKi3zxhPO8sovzE4BFtH5hbqG21LQmASJjOZgafeEssROKZvrYFegRNR0sK3rjn3_T0dYhOx2CNTASabiXoNe-K2sXNviFw8oIHNdyis5Q4L7H9Ms0w",
+  //       },
+  //       body: JSON.stringify({
+  //         type: type,
+  //         question: message,
+  //         conversationId: this.conversationId || "conv_" + Date.now(),
+  //       }),
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         if (data.result) {
+  //           this.removeMessage(thinkingMessage); // Remove the "thinking" state
+  //           if (this.selection === "Text") {
+  //             this.addMessage(data.result, "septa");
+  //           } else if (this.selection === "Table") {
+  //             this.handleTableResponse(data.result); // Handle Table response
+  //           } else if (this.selection === "Chart") {
+  //             this.handleChartResponse(data.result); // Handle Chart response
+  //           }
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         this.removeMessage(thinkingMessage); // Remove the "thinking" state
+  //         this.addMessage(
+  //           "Sorry, I'm having trouble understanding your question.",
+  //           "septa"
+  //         );
+  //       });
+  //     this.input.value = "";
+  //     this.input.style.overflowY = "hidden"; // Disable vertical scrollbar
+  //     this.input.style.height = "auto"; // Adjust the height to fit the content
+  //   }
+  // }
