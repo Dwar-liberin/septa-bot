@@ -15,6 +15,7 @@ class SeptaChatbox {
     this.access_level = config.access_level;
     this.questionBox = null;
     this.isLoading = false;
+    this.selectionMode = config.selectionMode;
 
     // URL is required if access_level is 1
     if (this.access_level === 1 && !config.url) {
@@ -310,9 +311,9 @@ class SeptaChatbox {
     document.head.appendChild(link);
   }
 
-  createDropdown(config) {
+  createDropdown(selection) {
     const dropdown = document.createElement("select");
-    const options = ["Text", "Table", "Chart"];
+    const options = selection ?? ["Text", "Table", "Chart"];
 
     options.forEach((option) => {
       const optElement = document.createElement("option");
@@ -480,7 +481,7 @@ class SeptaChatbox {
     this.sendButton = document.createElement("button");
     this.sendButton.className = "septa-send-button";
     this.questionBox = document.createElement("div");
-    this.createDropdown(this.config);
+    this.createDropdown(this.selectionMode);
 
     this.loadGoogleFont(this.fontFamily);
 
@@ -521,7 +522,6 @@ class SeptaChatbox {
     this.addEventListeners();
     this.showStandardQuestions();
   }
-
   // Standard questions display
   showStandardQuestions() {
     if (this.standardQuestions.length > 0) {

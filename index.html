@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- <script src="./main.js"></script> -->
-    <script src="./main-v1.1.js"></script>
+    <script src="./main-v1.1.0.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/gh/Dwar-liberin/septa-bot/main.js"></script> -->
 </head>
 
@@ -20,6 +20,7 @@
             access_level: 1,  // Set to 0 or 1 depending on your requirement
             url: 'https://staging.septa.live/process',  // Required if access_level is 1
             defaultOption: "Table",
+            selectionMode: ["Text", "Table", "Chart"],
             // Array of standard questions
             standardQuestions: [
                 "What are the working hours?",
