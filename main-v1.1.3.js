@@ -896,6 +896,5 @@ class SeptaChatbot {
 if (typeof window !== "undefined") {
   window.SeptaChatbot = SeptaChatbot;
 }
-window.SeptaChatbot = SeptaChatbot;
 
 module.export = SeptaChatbot;
