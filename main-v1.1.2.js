@@ -898,4 +898,4 @@ if (typeof window !== "undefined") {
 }
 window.SeptaChatbot = SeptaChatbot;
 
-// module.export = SeptaChatbot;
+module.export = SeptaChatbot;
