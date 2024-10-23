@@ -28,6 +28,8 @@ class SeptaChatbot {
     this.systemMessage =
       "output:- output should be chart should be height 200px width 300px and div id is always 'myChart'";
 
+    this.accessTokenUrl = config.accessTokenUrl;
+
     // Optional Parameters for Theme
     this.theme = config.theme || {
       colorCode: "#27ae60",
@@ -691,7 +693,7 @@ class SeptaChatbot {
 
   // Function to get access token and refresh token
   async getAccessToken() {
-    const accessUrl = "https://lap.lyttl.in/api/access.php";
+    const accessUrl = this.accessTokenUrl;
 
     const response = await fetch(accessUrl);
 
