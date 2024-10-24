@@ -25,8 +25,7 @@ class SeptaChatbot {
     this.fontFamily = config.theme?.fontFamily || "Roboto";
     this.defaultOption = config.defaultOption;
     this.selection = this.defaultOption;
-    this.systemMessage =
-      "output:- output should be chart should be height 200px width 300px and div id is always 'myChart'";
+    this.systemMessage = "output: div id is always 'myChart'";
 
     this.accessTokenUrl = config.accessTokenUrl;
 
@@ -284,6 +283,7 @@ class SeptaChatbot {
           justify-content: center;
           color: #ffffff;
           font-size:1rem;
+          min-width:20px
 
         }
          #septa .septa-table{
@@ -294,7 +294,7 @@ class SeptaChatbot {
             background: white;
          }
          #septa .septa-table-cell{
-           padding:9px;
+           padding:10px;
          }
       `;
     document.head.appendChild(style);
@@ -390,7 +390,7 @@ class SeptaChatbot {
 
     // Styling for the graph container
     graph.style.cssText = `
-          width: 310px;
+          width: auto;
           padding: 12px;
           background: white;
           margin-bottom: 10px;

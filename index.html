@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- <script src="./main.js"></script> -->
-    <script src="./main-v1.1.0.js"></script>
+    <script src="./main-v1.1.3.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/gh/Dwar-liberin/septa-bot/main-v1.1.0.js"></script> -->
 </head>
 
@@ -18,9 +18,9 @@
             client_id: '12345',
             client_name: 'exampleClient',
             access_level: 1,  // Set to 0 or 1 depending on your requirement
-            url: 'https://staging.septa.live/process',  // Required if access_level is 1
-            accessTokenUrl: "",
-            defaultOption: "Table",
+            url: 'https://resempliceai.septa.live/process',  // Required if access_level is 1
+            accessTokenUrl: "https://resemplice.septa.live/api/access.php",
+            defaultOption: "Chart",
             selectionMode: ["Text", "Table", "Chart"],
             // Array of standard questions
             standardQuestions: [
@@ -43,7 +43,7 @@
 
 
 
-        const septaChat = new SeptaChatbox(config);
+        const septaChat = new SeptaChatbot(config);
     </script>
 
 
