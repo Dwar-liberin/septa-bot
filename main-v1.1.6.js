@@ -573,8 +573,8 @@ class SeptaChatbot {
     let isExpanded = false;
     this.expandButton.onclick = () => {
       if (!isExpanded) {
-        this.chatbox.style.width = "70vw";
-        this.chatbox.style.height = "80vh";
+        this.chatbox.style.width = "100vw";
+        this.chatbox.style.height = "100vh";
         this.chatbox.style.top = "50%";
         this.chatbox.style.left = "50%";
         this.chatbox.style.transform = "translate(-50%, -50%)";
