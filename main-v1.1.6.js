@@ -27,7 +27,7 @@ class SeptaChatbot {
     this.fontFamily = config.theme?.fontFamily || "Roboto";
     this.defaultOption = config.defaultOption;
     this.selection = this.defaultOption;
-    this.systemMessage = "output: div id is always 'myChart'";
+    this.systemMessage = "";
 
     this.accessTokenUrl = config.accessTokenUrl;
 
@@ -388,12 +388,13 @@ class SeptaChatbot {
 
     // Create a new div for the chart
     const graph = document.createElement("div");
-    graph.className = "septa-graph";
+    // graph.className = "septa-graph";
 
     // Styling for the graph container
     graph.style.cssText = `
-          width: 95%;
-          height:500px;
+          min-width: 800px;
+          // width: 95%;
+          // height:500px;
           padding: 12px;
           background: white;
           margin-bottom: 10px;
@@ -404,7 +405,7 @@ class SeptaChatbot {
 
     // // Replace the ID in the htmlString with the unique ID
     graph.innerHTML = htmlString.replace(
-      /id="myChart"/,
+      /id="chart_div"/,
       `id="${uniqueChartId}"`
     );
 
@@ -436,7 +437,7 @@ class SeptaChatbot {
         // If it's an inline script, execute it
         // newScript.textContent = scripts[i].innerHTML;
         newScript.textContent = scripts[i].innerHTML.replace(
-          /myChart/g, // Replace old ID with new unique ID
+          /chart_div/g, // Replace old ID with new unique ID
           uniqueChartId
         );
 
