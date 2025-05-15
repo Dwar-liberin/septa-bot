@@ -99,7 +99,7 @@ class SeptaChatbot {
       bottom: 80px;
       right: 20px;
       width: 400px;
-      height: 500px;
+      height: 80vh;
       background: ${this.theme.backgroundColor};
       border: 1px solid #ddd;
       border-radius: ${this.theme.borderRadius};
