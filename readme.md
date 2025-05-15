@@ -11,7 +11,7 @@ The first step is to include the chatbot script hosted via a CDN in your applica
 #### Add to HTML `<head>` or just before closing the `<body>` tag:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/Dwar-liberin/septa-bot/main-v1.1.0.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Dwar-liberin/septa-bot/main-v1.1.7.js"></script>
 ```
 
 ### 2. **Configure the Chatbot**
@@ -49,7 +49,7 @@ The chatbot requires a configuration object to customize its behavior and appear
   };
 
   // Initialize the chatbot with the provided configuration
-  const septaChat = new SeptaChatbox(config);
+  const septaChat = new SeptaChatbot(config);
 </script>
 ```
 
@@ -69,7 +69,7 @@ Example:
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chatbot Integration</title>
-    <script src="https://cdn.jsdelivr.net/gh/Dwar-liberin/septa-bot/main-v1.1.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Dwar-liberin/septa-bot/main-v1.1.7.js"></script>
   </head>
   <body>
     <!-- Your website content goes here -->
@@ -144,7 +144,7 @@ const Chatbot = () => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
-      "https://cdn.jsdelivr.net/gh/Dwar-liberin/septa-bot/main-v1.1.0.js";
+      "https://cdn.jsdelivr.net/gh/Dwar-liberin/septa-bot/main-v1.1.7.js";
     script.async = true;
     document.body.appendChild(script);
 
