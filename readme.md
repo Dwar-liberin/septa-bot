@@ -27,7 +27,8 @@ The chatbot requires a configuration object to customize its behavior and appear
     client_name: "exampleClient", // Name to display in the chatbot interface
     access_level: 1, // 0 for basic access, 1 for advanced features (e.g., URL interaction)
     url: "https://staging.septa.live/process", // API endpoint used when access_level is 1
-    defaultOption: "Table", // Default data display mode: "Text", "Table", or "Chart"
+    accessTokenUrl: "https://resemplice.septa.live/api/access.php",
+    defaultOption: "Text", // Default data display mode: "Text", "Table", or "Chart"
     selectionMode: ["Text", "Table", "Chart"], // Available data display modes
     standardQuestions: [
       // Standard FAQ questions the chatbot can handle
