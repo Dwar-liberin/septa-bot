@@ -983,10 +983,7 @@ class SeptaChatbot {
       if (data.result) {
         this.removeMessage(thinkingMessage); // Remove the "thinking" state
         if (this.selection === "Text") {
-          if (
-            this.selection === "Text" ||
-            data.responseType.toUpperCase() === "CARD"
-          ) {
+          if (data.responseType.toUpperCase() === "CARD") {
             const cards = JSON.parse(data.result);
             this.createProductCards(cards);
             return true;
