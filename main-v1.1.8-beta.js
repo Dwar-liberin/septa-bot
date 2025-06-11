@@ -132,9 +132,8 @@ class SeptaChatbot {
           padding: 5px;
           background: ${this.theme.headerColor};
           border-bottom: 1px solid #ddd;
-          border-radius: ${this.theme.borderRadius} ${
-      this.theme.borderRadius
-    } 0 0;
+          border-radius: ${this.theme.borderRadius} ${this.theme.borderRadius
+      } 0 0;
         }
   
      #septa .septa-chat-content {
@@ -189,6 +188,7 @@ class SeptaChatbot {
   
         #septa .septa-message-box {
           display: flex;
+          flex-direction: column;
           gap: 8px;
           opacity: 0; /* Initially hidden */
           transform: translateY(20px); /* Slide up effect */
@@ -199,9 +199,8 @@ class SeptaChatbot {
           background-color: ${this.theme.colorCode}; /* Use the theme color */
           color: ${this.theme.textColor}; /* Text color from theme */
           padding: 12px 18px;
-          border-radius: ${this.theme.borderRadius} 0 ${
-      this.theme.borderRadius
-    } ${this.theme.borderRadius};
+          border-radius: ${this.theme.borderRadius} 0 ${this.theme.borderRadius
+      } ${this.theme.borderRadius};
           margin-bottom: 10px;
           align-self: flex-end;
           max-width: 70%;
@@ -215,9 +214,8 @@ class SeptaChatbot {
           background-color: #fff;
           color: #001F3F;
           padding: 12px 18px;
-          border-radius: 0 ${this.theme.borderRadius} ${
-      this.theme.borderRadius
-    } ${this.theme.borderRadius};
+          border-radius: 0 ${this.theme.borderRadius} ${this.theme.borderRadius
+      } ${this.theme.borderRadius};
           margin-bottom: 10px;
           align-self: flex-start;
           max-width: 70%;
@@ -234,9 +232,8 @@ class SeptaChatbot {
           padding: 12px 18px;
           font-style: italic;
           border-radius: 10px;
-          border-radius: 0 ${this.theme.borderRadius} ${
-      this.theme.borderRadius
-    } ${this.theme.borderRadius};
+          border-radius: 0 ${this.theme.borderRadius} ${this.theme.borderRadius
+      } ${this.theme.borderRadius};
           text-align: left;
           margin-bottom: 10px;
           align-self: flex-start;
@@ -345,7 +342,13 @@ class SeptaChatbot {
           margin-bottom: 10px;
         }
 
-        #septa .title {
+        #septa .heading{
+         margin: 0;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        #septa .title{
           margin: 0;
           font-size: 12px;
         }
@@ -465,15 +468,28 @@ class SeptaChatbot {
   }
 
   createProductCards(products) {
-    // Normalize to array
-    const items = Array.isArray(products) ? products : [products];
+    // // Normalize to array
+    // const items = Array.isArray(products) ? products : [products];
+    const items = Array.isArray(products) ? products.slice(1).filter(
+      (item) => typeof item === "object" && item !== null && !Array.isArray(item)
+    ) : [];
+
 
     // Create one message box for all cards
     const messageBox = this.createMessageBox();
     const container = document.createElement("div");
     container.className = "product-card-container";
 
+    if (typeof products[0] === "string") {
+      const heading = document.createElement("p");
+      heading.className = "heading"
+      heading.textContent = products[0];
+      messageBox.appendChild(heading);
+    }
+
     items.forEach((product) => {
+
+      console.log(typeof product);
       // Card wrapper
       const card = document.createElement("div");
       card.className = "product-card";
@@ -482,9 +498,20 @@ class SeptaChatbot {
       const productImageContainer = document.createElement("div");
       productImageContainer.className = "product-image";
       // Optional Image
-      if (product.image_url) {
+      if (product.guid) {
+
+        // const originalString = product.imageGuid;
+        // console.log(originalString)
+        // const regex = /localhost/g; // The 'g' flag ensures all occurrences are replaced
+        // const replacement = "192.168.1.81";
+
+        // const newString = originalString.replace(regex, replacement);
+
+        // console.log(newString);
+
+
         const img = document.createElement("img");
-        img.src = product.image_url;
+        img.src = product.imageGuid;  //imageGuid
         Object.assign(img.style, {
           width: "100%",
           display: "block",
@@ -499,26 +526,26 @@ class SeptaChatbot {
 
       // Title
       const title = document.createElement("h2");
-      title.textContent = product.product_name;
+      title.textContent = product.title;
       title.className = "title";
       productDetailsContainer.appendChild(title);
 
       // subtitle
-      const subtitle = document.createElement("p");
-      subtitle.textContent = product?.subtitle;
-      subtitle.className = "subtitle";
-      productDetailsContainer.appendChild(subtitle);
+      // const subtitle = document.createElement("p");
+      // subtitle.textContent = product?.subtitle;
+      // subtitle.className = "subtitle";
+      // productDetailsContainer.appendChild(subtitle);
 
-      // Price
+      //Price
       const price = document.createElement("p");
       price.textContent = product.price;
       price.className = "price";
       productDetailsContainer.appendChild(price);
 
       // Description
-      if (product.description) {
+      if (product.text) {
         const desc = document.createElement("p");
-        desc.textContent = product.description;
+        desc.textContent = product.text;
         desc.className = "description";
         productDetailsContainer.appendChild(desc);
       }
@@ -528,17 +555,21 @@ class SeptaChatbot {
       btn.textContent = "Add To Cart";
       btn.className = "add-to-cart";
       btn.addEventListener("click", () => {
-        window.open(product.product_url, "_blank");
+        window.open(product.guid, "_blank");
       });
       productDetailsContainer.appendChild(btn);
+
+
 
       // append the both child image container & productDetailsContainer.
       // card is a main container of the card container.
       card.appendChild(productImageContainer);
       card.appendChild(productDetailsContainer);
 
+
       container.appendChild(card); // it's a flex container so card look horizontal
       messageBox.appendChild(container);
+
     });
 
     // Append all cards in one go
@@ -924,6 +955,7 @@ class SeptaChatbot {
     }
 
     const data = await response.json();
+
     return data.access_token;
   }
 
@@ -979,28 +1011,30 @@ class SeptaChatbot {
       }
 
       const data = await response.json();
+      console.log(data);
 
-      if (data.result) {
+      if (data) {
         this.removeMessage(thinkingMessage); // Remove the "thinking" state
         if (this.selection === "Text") {
-          if (data.responseType.toUpperCase() === "CARD") {
-            const cards = JSON.parse(data.result);
-            this.createProductCards(cards);
-            return true;
-          }
-
-          this.addMessage(data.result, "septa");
-        } else if (this.selection === "Table") {
-          this.handleTableResponse(data.result); // Handle Table response
-        } else if (this.selection === "Chart") {
-          this.handleChartResponse(data.result); // Handle Chart response
-        } else if (
-          this.selection === "Text" ||
-          data.responseType.toUpperCase() === "CARD"
-        ) {
-          const cards = JSON.parse(data.result);
+          // if (data.responseType.toUpperCase() === "CARD") {
+          const cards = data;
           this.createProductCards(cards);
           return true;
+          //}
+
+          this.addMessage(data, "septa");
+          // } else if (this.selection === "Table") {
+          //   this.handleTableResponse(data.result); // Handle Table response
+          // } else if (this.selection === "Chart") {
+          //   this.handleChartResponse(data.result); // Handle Chart response
+          // } else if (
+          //   this.selection === "Text" ||
+          //   data.responseType.toUpperCase() === "CARD"
+          // ) {
+          //   const cards = JSON.parse(data.result);
+          //   this.createProductCards(cards);
+          //   return true;
+          // }
         }
       }
     } catch (err) {
