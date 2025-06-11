@@ -552,7 +552,7 @@ class SeptaChatbot {
 
       // Action Button
       const btn = document.createElement("button");
-      btn.textContent = "Add To Cart";
+      btn.textContent = "Read more...";
       btn.className = "add-to-cart";
       btn.addEventListener("click", () => {
         window.open(product.guid, "_blank");
