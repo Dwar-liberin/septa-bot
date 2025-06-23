@@ -33,14 +33,13 @@ class SeptaChatbot {
 
     // Optional Parameters for Theme
     this.theme = config.theme || {
-      colorCode: "#27ae60",
-      headerColor: "#1abc9c",
+      colorCode: "#074E8D",
+      headerColor: "#074E8D",
       textColor: "#ffffff",
       backgroundColor: "#ecf0f1",
-      inputBorderColor: "#16a085",
+      inputBorderColor: "#074E8D",
       buttonSize: "18px",
-      borderRadius: "12px",
-      outstockColor: "#ff0000",
+      borderRadius: "6px",
     };
     this.iconFile = this.theme.IconFile || null;
 
@@ -80,6 +79,11 @@ class SeptaChatbot {
   createScopedStyles() {
     const style = document.createElement("style");
     style.textContent = `
+
+    html {
+      font-size: 16px;
+    }
+
     #septa .septa-chatBot{
      all: unset;
     }
@@ -136,8 +140,9 @@ class SeptaChatbot {
           padding: 5px;
           background: ${this.theme.headerColor};
           border-bottom: 1px solid #ddd;
-          border-radius: ${this.theme.borderRadius} ${this.theme.borderRadius
-      } 0 0;
+          border-radius: ${this.theme.borderRadius} ${
+      this.theme.borderRadius
+    } 0 0;
         }
   
      #septa .septa-chat-content {
@@ -176,7 +181,7 @@ class SeptaChatbot {
             box-sizing: border-box;
             resize:none;
             outline-color:${this.theme.inputBorderColor};
-        //  border-color:${this.theme.inputBorderColor};
+          border-color:${this.theme.inputBorderColor};
             border: 1px solid rgb(225 225 225);
             border-radius:${this.theme.borderRadius};
             font-family: ${this.fontFamily ?? "Roboto"}; 
@@ -203,8 +208,9 @@ class SeptaChatbot {
           background-color: ${this.theme.colorCode}; /* Use the theme color */
           color: ${this.theme.textColor}; /* Text color from theme */
           padding: 12px 18px;
-          border-radius: ${this.theme.borderRadius} 0 ${this.theme.borderRadius
-      } ${this.theme.borderRadius};
+          border-radius: ${this.theme.borderRadius} 0 ${
+      this.theme.borderRadius
+    } ${this.theme.borderRadius};
           margin-bottom: 10px;
           align-self: flex-end;
           max-width: 70%;
@@ -218,8 +224,9 @@ class SeptaChatbot {
           background-color: #fff;
           color: #001F3F;
           padding: 12px 18px;
-          border-radius: 0 ${this.theme.borderRadius} ${this.theme.borderRadius
-      } ${this.theme.borderRadius};
+          border-radius: 0 ${this.theme.borderRadius} ${
+      this.theme.borderRadius
+    } ${this.theme.borderRadius};
           margin-bottom: 10px;
           align-self: flex-start;
           max-width: 70%;
@@ -236,8 +243,9 @@ class SeptaChatbot {
           padding: 12px 18px;
           font-style: italic;
           border-radius: 10px;
-          border-radius: 0 ${this.theme.borderRadius} ${this.theme.borderRadius
-      } ${this.theme.borderRadius};
+          border-radius: 0 ${this.theme.borderRadius} ${
+      this.theme.borderRadius
+    } ${this.theme.borderRadius};
           text-align: left;
           margin-bottom: 10px;
           align-self: flex-start;
@@ -349,62 +357,52 @@ class SeptaChatbot {
           margin-bottom: 10px;
         }
 
-        #septa .heading{
-         margin: 0;
-          font-size: 14px;
-          font-weight: bold;
-        }
+        .septa-confirm-modal {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        border-radius: 6px;
+      }
 
-        #septa .title{
-          margin: 0;
-          font-size: 12px;
-        }
+      .septa-modal-box {
+        background: #fff;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        z-index: 11;
+        text-align: center;
+      }
 
-        #septa .subtitle {
-          font-size: 6px;
-          color: gray;
-        }
+      .septa-modal-actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
 
-        #septa .price {
-          font-size: 10px;
-          font-weight: bold;
-          margin: 10px 0;
-        }
+      .septa-modal-actions button {
+        padding: 6px 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
 
-        #septa .description {
-          display: -webkit-box;
-          -webkit-line-clamp: 2; /* Clamp to 2 lines */
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          line-height: 1.4em;
-          max-height: 2.8em; /* Adjust as needed */
-          font-size: 10px;
-          color: gray;
-        }
+      .confirm-clear {
+        background-color: #074E8D;
+        color: white;
+      }
 
-        #septa .add-to-cart {
-          background-color: ${this.theme.colorCode};
-          color: ${this.theme.textColor};
-          padding: 5px 10px;
-          font-size: 12px;
-          border: none;
-          border-radius: 30px;
-          cursor: pointer;
-          width: 90%;
-        }
-
-        
-        #septa .outstock {
-          background-color: #ff0000;
-          color: ${this.theme.textColor};
-          padding: 5px 10px;
-          font-size: 12px;
-          border: none;
-          border-radius: 30px;
-          width: 90%;
-        }
-    
+      .cancel-clear {
+        background-color: #6c757d;
+        color: white;
+      }
       `;
     document.head.appendChild(style);
   }
@@ -422,22 +420,27 @@ class SeptaChatbot {
     document.head.appendChild(link);
   }
 
-formatBoldText(text) {
-  text = String(text || "");
-  return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-}
+  formatBoldText(text) {
+    text = String(text || "");
+    return text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  }
 
+  linkify = (text) => {
+    return text.replace(/(https?:\/\/[^\s]+)/g, (url) => {
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: blue; text-decoration: underline;">${url}</a>`;
+    });
+  };
 
   createanswer(text) {
-
-    const data = this.formatBoldText(text)
+    let data = this.formatBoldText(text);
+    data = this.linkify(data);
 
     const messageBox = this.createMessageBox();
     const container = document.createElement("div");
     container.className = "product-card-container";
 
     const message = document.createElement("p");
-    message.className = "message"
+    message.className = "message";
     message.textContent = data;
     container.appendChild(message);
     messageBox.appendChild(container);
@@ -568,6 +571,7 @@ formatBoldText(text) {
   addEventListeners() {
     this.button.onclick = () => {
       if (this.chatbox.style.display === "none") {
+        this.conversationId = this.conversationId || "conv_" + Date.now();
         this.playSound();
       }
 
@@ -600,12 +604,20 @@ formatBoldText(text) {
       isExpanded = !isExpanded;
     };
 
+    // this.closeButton.onclick = () => {
+    //   this.chatbox.style.display = "none";
+    // if (isExpanded) {
+    //   this.expandButton.click(); // Reset to small size when closing
+    // }
+    //   this.abortController.abort();
+    //   this.clearSeptaChatContent();
+    // };
+
     this.closeButton.onclick = () => {
-      this.chatbox.style.display = "none";
       if (isExpanded) {
-        this.expandButton.click(); // Reset to small size when closing
+        this.expandButton.click();
       }
-      this.abortController.abort();
+
       this.clearSeptaChatContent();
     };
 
@@ -651,20 +663,42 @@ formatBoldText(text) {
   }
 
   clearSeptaChatContent() {
-    // Display confirmation panel (using a simple confirm dialog)
     const chatContentDiv = document.querySelector(".septa-chat-content");
-    if (chatContentDiv.childNodes.length > 2) {
-      const userConfirmed = confirm("Are you sure you want to clear the chat?");
 
-      if (userConfirmed) {
-        while (chatContentDiv.firstChild) {
-          chatContentDiv.removeChild(chatContentDiv.firstChild);
-        }
-        this.chatContent.appendChild(this.questionBox);
-        this.questionBox.style.display = "block"; // Show the chatbox.
-      } else {
+    // Prevent multiple modals
+    if (document.querySelector(".septa-confirm-modal")) return;
+
+    const modal = document.createElement("div");
+    modal.className = "septa-confirm-modal";
+    modal.innerHTML = `
+    <div class="septa-modal-backdrop"></div>
+    <div class="septa-modal-box">
+      <p>Are you sure you want to clear the chat?</p>
+      <div class="septa-modal-actions">
+        <button class="confirm-clear">Yes</button>
+        <button class="cancel-clear">No</button>
+      </div>
+    </div>
+  `;
+
+    chatContentDiv.appendChild(modal);
+
+    //YES → Clear chat + Close chatbot
+    modal.querySelector(".confirm-clear").addEventListener("click", () => {
+      while (chatContentDiv.firstChild) {
+        chatContentDiv.removeChild(chatContentDiv.firstChild);
       }
-    }
+      this.chatContent.appendChild(this.questionBox);
+      this.questionBox.style.display = "block";
+      modal.remove();
+      this.chatbox.style.display = "none";
+    });
+
+    // NO → Close chatbot WITHOUT clearing chat
+    modal.querySelector(".cancel-clear").addEventListener("click", () => {
+      modal.remove();
+      this.chatbox.style.display = "none";
+    });
   }
 
   // Send message function
@@ -824,12 +858,10 @@ formatBoldText(text) {
       if (data) {
         this.removeMessage(thinkingMessage);
 
-          this.createanswer(data.result.toString());
-          return true;
-
-        }
+        this.createanswer(data.result.toString());
+        return true;
       }
-     catch (err) {
+    } catch (err) {
       console.log("Error", err);
       this.removeMessage(thinkingMessage); // Remove the "thinking" state
 
@@ -843,7 +875,6 @@ formatBoldText(text) {
         "septa"
       );
     } finally {
-
       this.isLoading = false;
       this.toggleButtonDisabledState(); // Re-enable button
     }
