@@ -38,8 +38,9 @@ class SeptaChatbot {
       textColor: "#ffffff",
       backgroundColor: "#ecf0f1",
       inputBorderColor: "#074E8D",
-      buttonSize: "18px",
-      borderRadius: "6px",
+      buttonSize: "1.125rem",
+      borderRadius: "0.375rem",
+
     };
     this.iconFile = this.theme.IconFile || null;
 
@@ -89,226 +90,211 @@ class SeptaChatbot {
     }
 
    #septa .header-expended-button {
-        background:none;
-        border:none;
-        cursor:pointer;
-        font-size:20px;
-        margin-right:5px;
-        padding-bottom: 5px;
-        color:${this.theme.textColor}
-    }
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  margin-right: 0.3125rem;
+  padding-bottom: 0.3125rem;
+  color: ${this.theme.textColor}
+}
 
    #septa .septa-chatbox {
-      display: none;
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      width: 400px;
-      height: 80vh;
-      background: ${this.theme.backgroundColor};
-      border: 1px solid #ddd;
-      border-radius: ${this.theme.borderRadius};
-      z-index: 1000;
-      transition: all 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      font-family: ${this.fontFamily ?? "Roboto"};
-    }
+  display: none;
+  position: fixed;
+  bottom: 5.0rem;
+  right: 1.25rem;
+  width: 25.0rem;
+  height: 80vh;
+  background: ${this.theme.backgroundColor};
+  border: 0.0625rem solid #ddd;
+  border-radius: ${this.theme.borderRadius};
+  z-index: 1000;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  font-family: ${this.fontFamily ?? "Roboto"};
+}
       #septa .message{
       white-space: pre-wrap
       }
 
    #septa .septa-chatbox-button {
-          position: fixed;
-          bottom: 20px;
-          right: 20px;
-          background: ${this.theme.colorCode};
-          color: ${this.theme.textColor};
-          border: none;
-          border-radius: 25px;
-          padding: 10px 20px;
-          font-size: ${this.theme.buttonSize};
-          cursor: pointer;
-          z-index: 1000;
-          font-family: ${this.fontFamily ?? "Roboto"};
-        }
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  background: ${this.theme.colorCode};
+  color: ${this.theme.textColor};
+  border: none;
+  border-radius: 1.5625rem;
+  padding: 0.625rem 1.25rem;
+  font-size: ${this.theme.buttonSize};
+  cursor: pointer;
+  z-index: 1000;
+  font-family: ${this.fontFamily ?? "Roboto"};
+}
   
   
       #septa .septa-chat-header {
-          display: flex;
-          justify-content: flex-end;
-          padding: 5px;
-          background: ${this.theme.headerColor};
-          border-bottom: 1px solid #ddd;
-          border-radius: ${this.theme.borderRadius} ${
-      this.theme.borderRadius
-    } 0 0;
-        }
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.3125rem;
+  background: ${this.theme.headerColor};
+  border-bottom: 0.0625rem solid #ddd;
+  border-radius: ${this.theme.borderRadius} ${this.theme.borderRadius} 0 0;
+}
   
      #septa .septa-chat-content {
-          flex-grow: 1;
-          overflow-y: auto;
-          padding: 14px;
-          display: flex;
-          flex-direction: column;
-          background-color: #F7F7F7;
-          font-family: ${this.fontFamily ?? "Roboto"};
-        }
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #F7F7F7;
+  font-family: ${this.fontFamily ?? "Roboto"};
+}
   
         #septa .septa-input-area {
-          display: flex;
-          padding: 8px 6px;
-          box-sizing: border-box;
-          width: 100%;
-          resize:none;
-          border-end-end-radius:${this.theme.borderRadius};
-          border-end-start-radius:${this.theme.borderRadius};
-          border-radius: ${this.theme.borderRadius};
-          outline-color: ${this.theme.inputBorderColor};
-          background-color: #fff;
-          font-family: ${this.fontFamily ?? "Roboto"};
-          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-        }
+  display: flex;
+  padding: 0.5rem 0.375rem;
+  box-sizing: border-box;
+  width: 100%;
+  resize: none;
+  border-end-end-radius: ${this.theme.borderRadius};
+  border-end-start-radius: ${this.theme.borderRadius};
+  border-radius: ${this.theme.borderRadius};
+  outline-color: ${this.theme.inputBorderColor};
+  background-color: #fff;
+  font-family: ${this.fontFamily ?? "Roboto"};
+  box-shadow: rgba(149, 157, 165, 0.2) 0rem 0.5rem 1.5rem;
+}
   
        #septa .septa-input {
-            padding: 10px;
-            max-width: 100%;
-            line-height: 1.5;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            width: 100%;
-            box-sizing: border-box;
-            resize:none;
-            outline-color:${this.theme.inputBorderColor};
-          border-color:${this.theme.inputBorderColor};
-            border: 1px solid rgb(225 225 225);
-            border-radius:${this.theme.borderRadius};
-            font-family: ${this.fontFamily ?? "Roboto"}; 
-        }
+  padding: 0.625rem;
+  max-width: 100%;
+  line-height: 1.5;
+  border-radius: 0.3125rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.0625rem;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+  outline-color: ${this.theme.inputBorderColor};
+  border: 0.0625rem solid rgb(225 225 225);
+  border-radius: ${this.theme.borderRadius};
+  font-family: ${this.fontFamily ?? "Roboto"};
+}
   
         #septa .septa-send-button {
-          border: none;
-          background: none;
-          cursor: pointer;
-          padding-top: 5px;
-          color: ${this.theme.colorCode};
-        }
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding-top: 0.3125rem;
+  color: ${this.theme.colorCode};
+}
   
         #septa .septa-message-box {
-          display: flex;
-          flex-direction: row;
-          gap: 8px;
-          opacity: 0; /* Initially hidden */
-          transform: translateY(20px); /* Slide up effect */
-          transition: opacity 0.5s ease, transform 0.5s ease; /* Add smooth transition */
-        }
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+
+#septa .septa-message,
+#septa .septa-septa-message {
+  padding: 0.75rem 1.125rem;
+  margin-bottom: 0.625rem;
+  font-size: 0.875rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0rem 0.125rem 0.5rem 0rem;
+}
   
        #septa .septa-message {
           background-color: ${this.theme.colorCode}; /* Use the theme color */
           color: ${this.theme.textColor}; /* Text color from theme */
-          padding: 12px 18px;
           border-radius: ${this.theme.borderRadius} 0 ${
       this.theme.borderRadius
     } ${this.theme.borderRadius};
-          margin-bottom: 10px;
           align-self: flex-end;
           max-width: 70%;
           word-wrap: break-word;
           font-family: ${this.fontFamily ?? "Roboto"};
-          font-size: 14px;
-          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         }
   
       #septa .septa-septa-message {
           background-color: #fff;
           color: #001F3F;
-          padding: 12px 18px;
           border-radius: 0 ${this.theme.borderRadius} ${
       this.theme.borderRadius
     } ${this.theme.borderRadius};
-          margin-bottom: 10px;
           align-self: flex-start;
           max-width: 70%;
           word-wrap: break-word;
           font-family: ${this.fontFamily ?? "Roboto"};
-          font-size: 14px;
-          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         }
   
        #septa .septa-septa-thinking-message {
-          padding: 5px;
+          padding: 0.75rem 1.125rem;
           background: #fff;
           color: #000;
-          padding: 12px 18px;
           font-style: italic;
-          border-radius: 10px;
           border-radius: 0 ${this.theme.borderRadius} ${
       this.theme.borderRadius
     } ${this.theme.borderRadius};
           text-align: left;
-          margin-bottom: 10px;
+          margin-bottom: 0.625rem;
           align-self: flex-start;
           max-width: 80%;
-          font-size: 14px;
+          font-size: 0.875rem;
         }
        #septa .septa-close-button{
             background:none;
             border:none;
             cursor:pointer;
-            font-size:24px;
+            font-size: 1.5rem;
             color:${this.theme.textColor}
         }
        #septa .septa-standard-question{
+       padding: 0.625rem;
+  margin-bottom: 0.4375rem;
+  font-size: 0.875rem;
+  border: 0.0625rem solid ${this.theme.inputBorderColor};
           display:block;
           background:none;
-          border:none;
           color:${this.theme.colorCode};
           cursor:pointer;
-          padding:10px;
-          margin-bottom:7px;
           text-align:left;
-          font-size:14px;
-          border: 1px solid ${this.theme.inputBorderColor};
           border-radius: ${this.theme.borderRadius}
         }
           #septa .septa-dropdown{
+          padding: 0.3125rem;
+  border-radius: 0.3125rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.0625rem;
+  border: 0.0625rem solid rgb(225 225 225);
           display:none;
-            padding: 5px;
             line-height: 1.5;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
             box-sizing: border-box;
             resize:none;
             outline-color:${this.theme.inputBorderColor};
-            border: 1px solid rgb(225 225 225);
             border-radius:${this.theme.borderRadius};
             font-family: ${this.fontFamily ?? "Roboto"}; 
           }
         #septa .septa-icon{
+        width: 1.25rem;
+  height: 1.25rem;
+  min-width: 1.25rem;
           background: ${this.theme.colorCode};
           border-radius: 50%;
-          width: 20px;
-          height: 20px;
           display: flex;
           justify-content: center;
           color: #ffffff;
           font-size:1rem;
-          min-width:20px
 
         }
-         #septa .septa-table{
-            border-collapse: collapse;
-            width: 100%;
-            margin:5px;
-            margin-bottom:15px;
-            background: white;
-         }
-         #septa .septa-table-cell{
-           padding:10px;
-         }
-          
+      
        #septa .product-card-container {
           display: flex;
           flex-direction: row;
@@ -319,43 +305,6 @@ class SeptaChatbot {
           cursor: pointer;
        }  
             
-       #septa .product-card {
-          display: flex;
-          background: #fff;
-          border-radius: ${this.theme.borderRadius};
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-          overflow: hidden;
-          width: 300px;
-          max-width: 100%;
-        }
-
-        #septa .product-image {
-          flex: 1;
-          padding: 0.5rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        #septa .product-image img {
-          width: 90%;
-          object-fit: contain;
-          border-radius: ${this.theme.borderRadius};
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-          height:150px;
-        }
-
-       #septa .product-details {
-          flex: 1;
-          padding: 1rem 0.5rem;
-          position: relative;
-        }
-
-        #septa .top-bar {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 10px;
-        }
 
         .septa-confirm-modal {
         position: absolute;
@@ -368,14 +317,14 @@ class SeptaChatbot {
         align-items: center;
         justify-content: center;
         z-index: 10;
-        border-radius: 6px;
+       border-radius: 0.375rem;
       }
 
       .septa-modal-box {
         background: #fff;
         padding: 1rem 1.5rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        border-radius: 0.5rem;
+        box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.2);
         z-index: 11;
         text-align: center;
       }
@@ -383,16 +332,15 @@ class SeptaChatbot {
       .septa-modal-actions {
         margin-top: 1rem;
         display: flex;
-        gap: 10px;
+       gap: 0.625rem;
         justify-content: center;
       }
-
-      .septa-modal-actions button {
-        padding: 6px 14px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
+.septa-modal-actions button {
+  padding: 0.375rem 0.875rem; 
+  border: none;
+  border-radius: 0.25rem;    
+  cursor: pointer;
+}
 
       .confirm-clear {
         background-color: #074E8D;
@@ -502,10 +450,10 @@ class SeptaChatbot {
 
     // Ask Septa button
     this.button.innerHTML = this.iconFile
-      ? `<img src="${this.iconFile}" alt="Ask Septa ?" style="width:32px;height:32px;">`
+      ? `<img src="${this.iconFile}" alt="Ask Septa ?" style="width:2rem;height:2rem;">`
       : "Ask Septa";
 
-    this.sendButton.innerHTML = `<img src="https://cdn.jsdelivr.net/gh/Dwar-liberin/blob/septaSend.png" alt="Send" style="width:26px;height:26px;">`;
+    this.sendButton.innerHTML = `<img src="https://cdn.jsdelivr.net/gh/Dwar-liberin/blob/septaSend.png" alt="Send" style="width:1.625rem;height:1.625rem;">`;
 
     this.expandButton.innerHTML = "&#x26F6;";
     this.expandButton.className = "header-expended-button";
@@ -591,13 +539,13 @@ class SeptaChatbot {
         this.chatbox.style.borderRadius = this.theme.borderRadius;
         this.expandButton.innerHTML = "&#x2013;";
       } else {
-        this.chatbox.style.width = "400px";
-        this.chatbox.style.height = "500px";
+        this.chatbox.style.width = "25rem"; 
+        this.chatbox.style.height = "31.25rem"; 
         this.chatbox.style.top = "auto";
         this.chatbox.style.left = "auto";
         this.chatbox.style.transform = "none";
-        this.chatbox.style.right = "20px";
-        this.chatbox.style.bottom = "80px";
+        this.chatbox.style.right = "1.25rem"; 
+        this.chatbox.style.bottom = "5rem"; 
         this.chatbox.style.borderRadius = this.theme.borderRadius;
         this.expandButton.innerHTML = "&#x26F6;";
       }
@@ -637,21 +585,19 @@ class SeptaChatbot {
     };
 
     this.input.addEventListener("input", function () {
-      const maxHeight = 60; // Set the maximum height when the scrollbar should appear
+  const maxHeight = 3.75 * 16; 
 
-      // Reset height to auto to allow shrinking
-      this.style.height = "auto";
+  this.style.height = "auto";
 
-      // Check if the content height (scrollHeight) is less than the maxHeight
-      if (this.scrollHeight <= maxHeight) {
-        this.style.overflowY = "hidden"; // Disable vertical scrollbar
-        this.style.height = this.scrollHeight + 2 + "px"; // Adjust the height to fit the content
-      } else {
-        // Set the textarea to the maxHeight and allow scroll
-        this.style.height = maxHeight + "px";
-        this.style.overflowY = "auto"; // Enable vertical scrollbar
-      }
-    });
+  if (this.scrollHeight <= maxHeight) {
+    this.style.overflowY = "hidden";
+    this.style.height = (this.scrollHeight + 2) / 16 + "rem"; 
+  } else {
+    this.style.height = "3.75rem"; 
+    this.style.overflowY = "auto";
+  }
+});
+
   }
 
   // Play sound when chatbox opens
