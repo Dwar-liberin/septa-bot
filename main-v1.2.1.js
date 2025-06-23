@@ -117,6 +117,7 @@ class SeptaChatbot {
 }
       #septa .message{
       white-space: pre-wrap
+
       }
 
    #septa .septa-chatbox-button {
@@ -389,7 +390,7 @@ class SeptaChatbot {
 
     const message = document.createElement("p");
     message.className = "message";
-    message.textContent = data;
+    message.innerHTML = data;
     container.appendChild(message);
     messageBox.appendChild(container);
 
@@ -626,12 +627,13 @@ class SeptaChatbot {
       </div>
     </div>
   `;
-
+    if (chatContentDiv.childNodes.length > 2) {
     chatContentDiv.appendChild(modal);
-
+    
     //YES → Clear chat + Close chatbot
     modal.querySelector(".confirm-clear").addEventListener("click", () => {
       while (chatContentDiv.firstChild) {
+        console.log(chatContentDiv.firstChild);
         chatContentDiv.removeChild(chatContentDiv.firstChild);
       }
       this.chatContent.appendChild(this.questionBox);
@@ -645,6 +647,9 @@ class SeptaChatbot {
       modal.remove();
       this.chatbox.style.display = "none";
     });
+  }else{
+    this.chatbox.style.display = "none";
+  }
   }
 
   // Send message function
