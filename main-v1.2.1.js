@@ -40,8 +40,8 @@ class SeptaChatbot {
       inputBorderColor: "#074E8D",
       buttonSize: "1.125rem",
       borderRadius: "0.375rem",
-
     };
+    console.log(config.theme);
     this.iconFile = this.theme.IconFile || null;
 
     // Optional: Predefined standard questions
@@ -85,18 +85,38 @@ class SeptaChatbot {
       font-size: 16px;
     }
 
+@keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
     #septa .septa-chatBot{
      all: unset;
     }
 
-   #septa .header-expended-button {
+    #septa .septa-header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#septa .header-expended-button,
+#septa .septa-close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.25rem;
-  margin-right: 0.3125rem;
-  padding-bottom: 0.3125rem;
-  color: ${this.theme.textColor}
+  padding: 0.25rem;
+  font-size: 1.25rem; /* Match both buttons' size */
+  color: ${this.theme.textColor};
+  line-height: 1;
 }
 
    #septa .septa-chatbox {
@@ -104,7 +124,7 @@ class SeptaChatbot {
   position: fixed;
   bottom: 5.0rem;
   right: 1.25rem;
-  width: 25.0rem;
+  width: min(100vw - 2rem, 25rem);
   height: 80vh;
   background: ${this.theme.backgroundColor};
   border: 0.0625rem solid #ddd;
@@ -114,6 +134,7 @@ class SeptaChatbot {
   display: flex;
   flex-direction: column;
   font-family: ${this.fontFamily ?? "Roboto"};
+
 }
       #septa .message{
       white-space: pre-wrap
@@ -121,25 +142,31 @@ class SeptaChatbot {
       }
 
    #septa .septa-chatbox-button {
+   font-size: 1rem;
+  border-radius: 2rem;
+  padding: 0.75rem 1.5rem;
+  transition: background-color 0.3s ease;
   position: fixed;
   bottom: 1.25rem;
   right: 1.25rem;
   background: ${this.theme.colorCode};
   color: ${this.theme.textColor};
   border: none;
-  border-radius: 1.5625rem;
-  padding: 0.625rem 1.25rem;
-  font-size: ${this.theme.buttonSize};
   cursor: pointer;
   z-index: 1000;
   font-family: ${this.fontFamily ?? "Roboto"};
 }
-  
+  #septa .septa-chatbox-button:hover {
+  background-color: #0560a4;
+}
   
       #septa .septa-chat-header {
+      
   display: flex;
-  justify-content: flex-end;
-  padding: 0.3125rem;
+  justify-content: space-between;
+align-items: center;
+padding: 0.5rem 1rem;
+
   background: ${this.theme.headerColor};
   border-bottom: 0.0625rem solid #ddd;
   border-radius: ${this.theme.borderRadius} ${this.theme.borderRadius} 0 0;
@@ -156,14 +183,15 @@ class SeptaChatbot {
 }
   
         #septa .septa-input-area {
+        border-top: 1px solid #eee;
+  padding: 0.75rem 1rem;
+  border-radius: 0 0 ${this.theme.borderRadius} ${this.theme.borderRadius};
   display: flex;
-  padding: 0.5rem 0.375rem;
   box-sizing: border-box;
   width: 100%;
   resize: none;
   border-end-end-radius: ${this.theme.borderRadius};
   border-end-start-radius: ${this.theme.borderRadius};
-  border-radius: ${this.theme.borderRadius};
   outline-color: ${this.theme.inputBorderColor};
   background-color: #fff;
   font-family: ${this.fontFamily ?? "Roboto"};
@@ -185,6 +213,10 @@ class SeptaChatbot {
   border-radius: ${this.theme.borderRadius};
   font-family: ${this.fontFamily ?? "Roboto"};
 }
+  #septa .septa-input::placeholder {
+  font-style: italic;
+  color: #888;
+}
   
         #septa .septa-send-button {
   border: none;
@@ -193,23 +225,37 @@ class SeptaChatbot {
   padding-top: 0.3125rem;
   color: ${this.theme.colorCode};
 }
+
+#septa .septa-send-button img {
+  transition: transform 0.2s ease;
+}
+#septa .septa-send-button:hover img {
+  transform: scale(1.1);
+}
   
         #septa .septa-message-box {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
-  opacity: 0;
-  transform: translateY(1.25rem);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 
 #septa .septa-message,
 #septa .septa-septa-message {
-  padding: 0.75rem 1.125rem;
+ border-radius: 1.25rem;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
   margin-bottom: 0.625rem;
   font-size: 0.875rem;
-  box-shadow: rgba(99, 99, 99, 0.2) 0rem 0.125rem 0.5rem 0rem;
+  background-color: ${this.theme.colorCode}; /* Use the theme color */
+          color: ${this.theme.textColor}; /* Text color from theme */
+          border-radius: ${this.theme.borderRadius} 0 ${
+      this.theme.borderRadius
+    } ${this.theme.borderRadius};
 }
   
        #septa .septa-message {
@@ -232,7 +278,7 @@ class SeptaChatbot {
     } ${this.theme.borderRadius};
           align-self: flex-start;
           max-width: 70%;
-          word-wrap: break-word;
+          white-space: pre-wrap;
           font-family: ${this.fontFamily ?? "Roboto"};
         }
   
@@ -250,13 +296,44 @@ class SeptaChatbot {
           max-width: 80%;
           font-size: 0.875rem;
         }
-       #septa .septa-close-button{
-            background:none;
-            border:none;
-            cursor:pointer;
-            font-size: 1.5rem;
-            color:${this.theme.textColor}
-        }
+          #septa .typing-indicator {
+  display: flex;
+  gap: 0.3rem;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+#septa .typing-indicator .dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  background-color: ${this.theme.colorCode}; /* Use the blue from your theme */
+  border-radius: 50%;
+  animation: blink 1.4s infinite both;
+}
+
+#septa .typing-indicator .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+#septa .typing-indicator .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%, 80%, 100% {
+    opacity: 0.2;
+    transform: scale(0.9);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+        
+
+
+
        #septa .septa-standard-question{
        padding: 0.625rem;
   margin-bottom: 0.4375rem;
@@ -297,12 +374,6 @@ class SeptaChatbot {
         }
       
        #septa .product-card-container {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 1rem;
-          padding: 1rem 0rem;
           cursor: pointer;
        }  
             
@@ -352,7 +423,52 @@ class SeptaChatbot {
         background-color: #6c757d;
         color: white;
       }
-      `;
+      
+      #septa .septa-chatbox,
+#septa .septa-message-box,
+#septa .septa-input,
+#septa .septa-send-button {
+  transition: all 0.3s ease-in-out;
+}
+
+#septa .message, 
+#septa .septa-message, 
+#septa .septa-septa-message {
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+  font-weight: 400;
+}
+
+#septa .septa-chatbox {
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+#septa .septa-message, #septa .septa-septa-message {
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+},
+
+.septa-septa-message table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.septa-septa-message th,
+.septa-septa-message td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.septa-septa-message th {
+  background-color: #f5f5f5;
+}
+
+
+`;
     document.head.appendChild(style);
   }
 
@@ -381,16 +497,28 @@ class SeptaChatbot {
   };
 
   createanswer(text) {
-    let data = this.formatBoldText(text);
-    data = this.linkify(data);
+    // If text contains escaped \n, convert to actual newlines
+    const cleanText = text.replace(/\\n/g, "\n");
+
+    const renderer = new marked.Renderer();
+    renderer.link = function (href, title, text) {
+      const t = title ? ` title="${title}"` : "";
+      return `<a href="${href}" target="_blank" rel="noopener noreferrer"${t}>${text}</a>`;
+    };
+
+    marked.setOptions({ renderer });
+
+    // Convert full markdown (tables, bold, etc.) to HTML
+    const data = marked.parse(cleanText);
 
     const messageBox = this.createMessageBox();
     const container = document.createElement("div");
     container.className = "product-card-container";
 
     const message = document.createElement("p");
-    message.className = "message";
-    message.innerHTML = data;
+    message.className = "septa-septa-message";
+    message.innerHTML = data; // Already HTML, now includes table, bold, etc.
+
     container.appendChild(message);
     messageBox.appendChild(container);
 
@@ -452,7 +580,7 @@ class SeptaChatbot {
     // Ask Septa button
     this.button.innerHTML = this.iconFile
       ? `<img src="${this.iconFile}" alt="Ask Septa ?" style="width:2rem;height:2rem;">`
-      : "Ask Septa";
+      : "Ask Taara";
 
     this.sendButton.innerHTML = `<img src="https://cdn.jsdelivr.net/gh/Dwar-liberin/blob/septaSend.png" alt="Send" style="width:1.625rem;height:1.625rem;">`;
 
@@ -468,8 +596,18 @@ class SeptaChatbot {
     this.input.placeholder = "Type your question...";
 
     // ChatHeader
-    this.chatHeader.appendChild(this.expandButton);
-    this.chatHeader.appendChild(this.closeButton);
+    const title = document.createElement("div");
+    title.textContent = "Ask Taara";
+    title.style.color = this.theme.textColor;
+    title.style.fontWeight = "bold";
+    title.style.fontSize = "1rem";
+    this.chatHeader.appendChild(title);
+    const headerbtns = document.createElement("div");
+    headerbtns.className = "septa-header-buttons";
+    headerbtns.appendChild(this.expandButton);
+    headerbtns.appendChild(this.closeButton);
+    this.chatHeader.appendChild(headerbtns);
+
     // Chatbox
     this.chatbox.appendChild(this.chatHeader);
     this.chatbox.appendChild(this.chatContent);
@@ -540,13 +678,13 @@ class SeptaChatbot {
         this.chatbox.style.borderRadius = this.theme.borderRadius;
         this.expandButton.innerHTML = "&#x2013;";
       } else {
-        this.chatbox.style.width = "25rem"; 
-        this.chatbox.style.height = "31.25rem"; 
+        this.chatbox.style.width = "25rem";
+        this.chatbox.style.height = "31.25rem";
         this.chatbox.style.top = "auto";
         this.chatbox.style.left = "auto";
         this.chatbox.style.transform = "none";
-        this.chatbox.style.right = "1.25rem"; 
-        this.chatbox.style.bottom = "5rem"; 
+        this.chatbox.style.right = "1.25rem";
+        this.chatbox.style.bottom = "5rem";
         this.chatbox.style.borderRadius = this.theme.borderRadius;
         this.expandButton.innerHTML = "&#x26F6;";
       }
@@ -586,19 +724,18 @@ class SeptaChatbot {
     };
 
     this.input.addEventListener("input", function () {
-  const maxHeight = 3.75 * 16; 
+      const maxHeight = 3.75 * 16;
 
-  this.style.height = "auto";
+      this.style.height = "auto";
 
-  if (this.scrollHeight <= maxHeight) {
-    this.style.overflowY = "hidden";
-    this.style.height = (this.scrollHeight + 2) / 16 + "rem"; 
-  } else {
-    this.style.height = "3.75rem"; 
-    this.style.overflowY = "auto";
-  }
-});
-
+      if (this.scrollHeight <= maxHeight) {
+        this.style.overflowY = "hidden";
+        this.style.height = (this.scrollHeight + 2) / 16 + "rem";
+      } else {
+        this.style.height = "3.75rem";
+        this.style.overflowY = "auto";
+      }
+    });
   }
 
   // Play sound when chatbox opens
@@ -628,28 +765,28 @@ class SeptaChatbot {
     </div>
   `;
     if (chatContentDiv.childNodes.length > 2) {
-    chatContentDiv.appendChild(modal);
-    
-    //YES → Clear chat + Close chatbot
-    modal.querySelector(".confirm-clear").addEventListener("click", () => {
-      while (chatContentDiv.firstChild) {
-        console.log(chatContentDiv.firstChild);
-        chatContentDiv.removeChild(chatContentDiv.firstChild);
-      }
-      this.chatContent.appendChild(this.questionBox);
-      this.questionBox.style.display = "block";
-      modal.remove();
-      this.chatbox.style.display = "none";
-    });
+      chatContentDiv.appendChild(modal);
 
-    // NO → Close chatbot WITHOUT clearing chat
-    modal.querySelector(".cancel-clear").addEventListener("click", () => {
-      modal.remove();
+      //YES → Clear chat + Close chatbot
+      modal.querySelector(".confirm-clear").addEventListener("click", () => {
+        while (chatContentDiv.firstChild) {
+          console.log(chatContentDiv.firstChild);
+          chatContentDiv.removeChild(chatContentDiv.firstChild);
+        }
+        this.chatContent.appendChild(this.questionBox);
+        this.questionBox.style.display = "block";
+        modal.remove();
+        this.chatbox.style.display = "none";
+      });
+
+      // NO → Close chatbot WITHOUT clearing chat
+      modal.querySelector(".cancel-clear").addEventListener("click", () => {
+        modal.remove();
+        this.chatbox.style.display = "none";
+      });
+    } else {
       this.chatbox.style.display = "none";
-    });
-  }else{
-    this.chatbox.style.display = "none";
-  }
+    }
   }
 
   // Send message function
@@ -866,7 +1003,7 @@ class SeptaChatbot {
 
   createSeptaIcon() {
     const span = document.createElement("span");
-    span.innerText = "S";
+    span.innerText = "T";
     span.className = "septa-icon";
     return span;
   }
@@ -901,9 +1038,17 @@ class SeptaChatbot {
       this.chatContent.appendChild(message);
       return true;
     } else if (sender === "septa-thinking") {
-      message.className = "septa-septa-thinking-message";
-      message.textContent = text;
-    } else if (sender === "septa") {
+  message.className = "septa-septa-thinking-message typing-dots";
+  // Instead of this line:
+  // message.textContent = "Taara is typing";
+  message.innerHTML = `
+    <div class="typing-indicator">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  `;
+} else if (sender === "septa") {
       message.className = "septa-septa-message";
       message.textContent = "";
     }
