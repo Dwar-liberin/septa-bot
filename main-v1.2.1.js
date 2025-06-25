@@ -496,6 +496,7 @@ padding: 0.5rem 1rem;
     });
   };
 
+
   createanswer(text) {
     // If text contains escaped \n, convert to actual newlines
     const cleanText = text.replace(/\\n/g, "\n");
