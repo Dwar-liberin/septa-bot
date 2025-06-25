@@ -40,8 +40,8 @@ class SeptaChatbot {
       inputBorderColor: "#074E8D",
       buttonSize: "1.125rem",
       borderRadius: "0.375rem",
-
     };
+    console.log(config.theme);
     this.iconFile = this.theme.IconFile || null;
 
     // Optional: Predefined standard questions
@@ -85,6 +85,16 @@ class SeptaChatbot {
       font-size: 16px;
     }
 
+@keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
     #septa .septa-chatBot{
      all: unset;
     }
@@ -114,6 +124,7 @@ class SeptaChatbot {
   display: flex;
   flex-direction: column;
   font-family: ${this.fontFamily ?? "Roboto"};
+
 }
       #septa .message{
       white-space: pre-wrap
@@ -185,6 +196,10 @@ class SeptaChatbot {
   border-radius: ${this.theme.borderRadius};
   font-family: ${this.fontFamily ?? "Roboto"};
 }
+  #septa .septa-input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
   
         #septa .septa-send-button {
   border: none;
@@ -193,14 +208,22 @@ class SeptaChatbot {
   padding-top: 0.3125rem;
   color: ${this.theme.colorCode};
 }
+
+#septa .septa-send-button img {
+  transition: transform 0.2s ease;
+}
+#septa .septa-send-button:hover img {
+  transform: scale(1.1);
+}
   
         #septa .septa-message-box {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
-  opacity: 0;
-  transform: translateY(1.25rem);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  animation: fadeInSlideUp 0.35s ease;
 }
 
 
@@ -210,6 +233,11 @@ class SeptaChatbot {
   margin-bottom: 0.625rem;
   font-size: 0.875rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0rem 0.125rem 0.5rem 0rem;
+  background-color: ${this.theme.colorCode}; /* Use the theme color */
+          color: ${this.theme.textColor}; /* Text color from theme */
+          border-radius: ${this.theme.borderRadius} 0 ${
+      this.theme.borderRadius
+    } ${this.theme.borderRadius};
 }
   
        #septa .septa-message {
@@ -232,7 +260,7 @@ class SeptaChatbot {
     } ${this.theme.borderRadius};
           align-self: flex-start;
           max-width: 70%;
-          word-wrap: break-word;
+          white-space: pre-wrap;
           font-family: ${this.fontFamily ?? "Roboto"};
         }
   
@@ -297,12 +325,6 @@ class SeptaChatbot {
         }
       
        #septa .product-card-container {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 1rem;
-          padding: 1rem 0rem;
           cursor: pointer;
        }  
             
@@ -352,7 +374,34 @@ class SeptaChatbot {
         background-color: #6c757d;
         color: white;
       }
-      `;
+      
+      #septa .septa-chatbox,
+#septa .septa-message-box,
+#septa .septa-input,
+#septa .septa-send-button {
+  transition: all 0.3s ease-in-out;
+}
+
+#septa .message, 
+#septa .septa-message, 
+#septa .septa-septa-message {
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+  font-weight: 400;
+}
+
+#septa .septa-chatbox {
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+#septa .septa-message, #septa .septa-septa-message {
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+},
+
+`;
     document.head.appendChild(style);
   }
 
@@ -380,16 +429,18 @@ class SeptaChatbot {
     });
   };
 
+
   createanswer(text) {
     let data = this.formatBoldText(text);
     data = this.linkify(data);
+    data = data.replace(/^(?:\s*)-\s+(?=\S)/gm, '• ');
 
     const messageBox = this.createMessageBox();
     const container = document.createElement("div");
     container.className = "product-card-container";
 
     const message = document.createElement("p");
-    message.className = "message";
+    message.className = "septa-septa-message";
     message.innerHTML = data;
     container.appendChild(message);
     messageBox.appendChild(container);
@@ -540,13 +591,13 @@ class SeptaChatbot {
         this.chatbox.style.borderRadius = this.theme.borderRadius;
         this.expandButton.innerHTML = "&#x2013;";
       } else {
-        this.chatbox.style.width = "25rem"; 
-        this.chatbox.style.height = "31.25rem"; 
+        this.chatbox.style.width = "25rem";
+        this.chatbox.style.height = "31.25rem";
         this.chatbox.style.top = "auto";
         this.chatbox.style.left = "auto";
         this.chatbox.style.transform = "none";
-        this.chatbox.style.right = "1.25rem"; 
-        this.chatbox.style.bottom = "5rem"; 
+        this.chatbox.style.right = "1.25rem";
+        this.chatbox.style.bottom = "5rem";
         this.chatbox.style.borderRadius = this.theme.borderRadius;
         this.expandButton.innerHTML = "&#x26F6;";
       }
@@ -586,19 +637,18 @@ class SeptaChatbot {
     };
 
     this.input.addEventListener("input", function () {
-  const maxHeight = 3.75 * 16; 
+      const maxHeight = 3.75 * 16;
 
-  this.style.height = "auto";
+      this.style.height = "auto";
 
-  if (this.scrollHeight <= maxHeight) {
-    this.style.overflowY = "hidden";
-    this.style.height = (this.scrollHeight + 2) / 16 + "rem"; 
-  } else {
-    this.style.height = "3.75rem"; 
-    this.style.overflowY = "auto";
-  }
-});
-
+      if (this.scrollHeight <= maxHeight) {
+        this.style.overflowY = "hidden";
+        this.style.height = (this.scrollHeight + 2) / 16 + "rem";
+      } else {
+        this.style.height = "3.75rem";
+        this.style.overflowY = "auto";
+      }
+    });
   }
 
   // Play sound when chatbox opens
@@ -628,28 +678,28 @@ class SeptaChatbot {
     </div>
   `;
     if (chatContentDiv.childNodes.length > 2) {
-    chatContentDiv.appendChild(modal);
-    
-    //YES → Clear chat + Close chatbot
-    modal.querySelector(".confirm-clear").addEventListener("click", () => {
-      while (chatContentDiv.firstChild) {
-        console.log(chatContentDiv.firstChild);
-        chatContentDiv.removeChild(chatContentDiv.firstChild);
-      }
-      this.chatContent.appendChild(this.questionBox);
-      this.questionBox.style.display = "block";
-      modal.remove();
-      this.chatbox.style.display = "none";
-    });
+      chatContentDiv.appendChild(modal);
 
-    // NO → Close chatbot WITHOUT clearing chat
-    modal.querySelector(".cancel-clear").addEventListener("click", () => {
-      modal.remove();
+      //YES → Clear chat + Close chatbot
+      modal.querySelector(".confirm-clear").addEventListener("click", () => {
+        while (chatContentDiv.firstChild) {
+          console.log(chatContentDiv.firstChild);
+          chatContentDiv.removeChild(chatContentDiv.firstChild);
+        }
+        this.chatContent.appendChild(this.questionBox);
+        this.questionBox.style.display = "block";
+        modal.remove();
+        this.chatbox.style.display = "none";
+      });
+
+      // NO → Close chatbot WITHOUT clearing chat
+      modal.querySelector(".cancel-clear").addEventListener("click", () => {
+        modal.remove();
+        this.chatbox.style.display = "none";
+      });
+    } else {
       this.chatbox.style.display = "none";
-    });
-  }else{
-    this.chatbox.style.display = "none";
-  }
+    }
   }
 
   // Send message function
