@@ -136,10 +136,6 @@ class SeptaChatbot {
   font-family: ${this.fontFamily ?? "Roboto"};
 
 }
-      #septa .message{
-      white-space: pre-wrap
-
-      }
 
    #septa .septa-chatbox-button {
    font-size: 1rem;
@@ -278,7 +274,6 @@ padding: 0.5rem 1rem;
     } ${this.theme.borderRadius};
           align-self: flex-start;
           max-width: 70%;
-          white-space: pre-wrap;
           font-family: ${this.fontFamily ?? "Roboto"};
         }
   
@@ -446,7 +441,6 @@ padding: 0.5rem 1rem;
 }
 
 #septa .septa-message, #septa .septa-septa-message {
-  border-radius: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 },
 
@@ -465,6 +459,20 @@ padding: 0.5rem 1rem;
 
 .septa-septa-message th {
   background-color: #f5f5f5;
+}
+
+#septa .septa-chat-content::-webkit-scrollbar {
+  width: 0.4rem; /* thinner scrollbar */
+}
+
+#septa .septa-chat-content::-webkit-scrollbar-track {
+  background: transparent; /* fully transparent track */
+}
+
+#septa .septa-chat-content::-webkit-scrollbar-thumb {
+  background-color: ${this.theme.colorCode}; /* theme blue */
+  border-radius: 1rem;
+  border: none;
 }
 
 
