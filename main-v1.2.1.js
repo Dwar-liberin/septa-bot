@@ -81,7 +81,7 @@ class SeptaChatbot {
     const style = document.createElement("style");
     style.textContent = `
 
-    html {
+ html {
       font-size: 16px;
     }
 
@@ -155,9 +155,9 @@ class SeptaChatbot {
   #septa .septa-chatbox-button:hover {
   background-color: #0560a4;
 }
-  
+
       #septa .septa-chat-header {
-      
+
   display: flex;
   justify-content: space-between;
 align-items: center;
@@ -167,7 +167,7 @@ padding: 0.5rem 1rem;
   border-bottom: 0.0625rem solid #ddd;
   border-radius: ${this.theme.borderRadius} ${this.theme.borderRadius} 0 0;
 }
-  
+
      #septa .septa-chat-content {
   flex-grow: 1;
   overflow-y: auto;
@@ -177,7 +177,7 @@ padding: 0.5rem 1rem;
   background-color: #F7F7F7;
   font-family: ${this.fontFamily ?? "Roboto"};
 }
-  
+
         #septa .septa-input-area {
         border-top: 1px solid #eee;
   padding: 0.75rem 1rem;
@@ -193,7 +193,7 @@ padding: 0.5rem 1rem;
   font-family: ${this.fontFamily ?? "Roboto"};
   box-shadow: rgba(149, 157, 165, 0.2) 0rem 0.5rem 1.5rem;
 }
-  
+
        #septa .septa-input {
   padding: 0.625rem;
   max-width: 100%;
@@ -213,7 +213,7 @@ padding: 0.5rem 1rem;
   font-style: italic;
   color: #888;
 }
-  
+
         #septa .septa-send-button {
   border: none;
   background: none;
@@ -228,7 +228,7 @@ padding: 0.5rem 1rem;
 #septa .septa-send-button:hover img {
   transform: scale(1.1);
 }
-  
+
         #septa .septa-message-box {
   display: flex;
   flex-direction: row;
@@ -253,7 +253,7 @@ padding: 0.5rem 1rem;
       this.theme.borderRadius
     } ${this.theme.borderRadius};
 }
-  
+
        #septa .septa-message {
           background-color: ${this.theme.colorCode}; /* Use the theme color */
           color: ${this.theme.textColor}; /* Text color from theme */
@@ -265,7 +265,7 @@ padding: 0.5rem 1rem;
           word-wrap: break-word;
           font-family: ${this.fontFamily ?? "Roboto"};
         }
-  
+
       #septa .septa-septa-message {
           background-color: #fff;
           color: #001F3F;
@@ -276,7 +276,7 @@ padding: 0.5rem 1rem;
           max-width: 70%;
           font-family: ${this.fontFamily ?? "Roboto"};
         }
-  
+
        #septa .septa-septa-thinking-message {
           padding: 0.75rem 1.125rem;
           background: #fff;
@@ -324,11 +324,6 @@ padding: 0.5rem 1rem;
     transform: scale(1);
   }
 }
-
-        
-
-
-
        #septa .septa-standard-question{
        padding: 0.625rem;
   margin-bottom: 0.4375rem;
@@ -353,7 +348,7 @@ padding: 0.5rem 1rem;
             resize:none;
             outline-color:${this.theme.inputBorderColor};
             border-radius:${this.theme.borderRadius};
-            font-family: ${this.fontFamily ?? "Roboto"}; 
+            font-family: ${this.fontFamily ?? "Roboto"};
           }
         #septa .septa-icon{
         width: 1.25rem;
@@ -367,11 +362,11 @@ padding: 0.5rem 1rem;
           font-size:1rem;
 
         }
-      
+
        #septa .product-card-container {
           cursor: pointer;
-       }  
-            
+       }
+
 
         .septa-confirm-modal {
         position: absolute;
@@ -403,9 +398,9 @@ padding: 0.5rem 1rem;
         justify-content: center;
       }
 .septa-modal-actions button {
-  padding: 0.375rem 0.875rem; 
+  padding: 0.375rem 0.875rem;
   border: none;
-  border-radius: 0.25rem;    
+  border-radius: 0.25rem;
   cursor: pointer;
 }
 
@@ -418,7 +413,7 @@ padding: 0.5rem 1rem;
         background-color: #6c757d;
         color: white;
       }
-      
+
       #septa .septa-chatbox,
 #septa .septa-message-box,
 #septa .septa-input,
@@ -426,8 +421,8 @@ padding: 0.5rem 1rem;
   transition: all 0.3s ease-in-out;
 }
 
-#septa .message, 
-#septa .septa-message, 
+#septa .message,
+#septa .septa-message,
 #septa .septa-septa-message {
   line-height: 1.6;
   letter-spacing: 0.3px;
@@ -475,6 +470,18 @@ padding: 0.5rem 1rem;
   border: none;
 }
 
+.septa-septa-message {
+  list-style-position: inside; /* This moves bullets inside */
+  padding-left: 0.5rem; /* Optional: Adjust to your layout */
+}
+
+.septa-septa-message ul, 
+.septa-septa-message ol {
+  padding-left: 1rem; /* Indent list content */
+  margin: 0.5rem 0;
+  list-style-position: inside;
+}
+
 
 `;
     document.head.appendChild(style);
@@ -504,35 +511,37 @@ padding: 0.5rem 1rem;
     });
   };
 
+createanswer(text) {
+  const cleanText = text.replace(/\\n/g, "\n")
 
-  createanswer(text) {
-    // If text contains escaped \n, convert to actual newlines
-    const cleanText = text.replace(/\\n/g, "\n");
-
-    const renderer = new marked.Renderer();
-    renderer.link = function (href, title, text) {
-      const t = title ? ` title="${title}"` : "";
-      return `<a href="${href}" target="_blank" rel="noopener noreferrer"${t}>${text}</a>`;
-    };
-
-    marked.setOptions({ renderer });
-
-    // Convert full markdown (tables, bold, etc.) to HTML
-    const data = marked.parse(cleanText);
-
-    const messageBox = this.createMessageBox();
-    const container = document.createElement("div");
-    container.className = "product-card-container";
-
-    const message = document.createElement("p");
-    message.className = "septa-septa-message";
-    message.innerHTML = data; // Already HTML, now includes table, bold, etc.
-
-    container.appendChild(message);
-    messageBox.appendChild(container);
-
-    this.writeChatContent(messageBox);
+  const renderer = {
+  link(token) {
+    const href = token.href || "#";
+    const text = token.text || href;
+    const title = token.title ? ` title="${token.title}"` : "";
+    return `<a href="${href}" target="_blank" rel="noopener noreferrer"${title}>${text}</a>`;
   }
+};
+
+marked.use({ renderer });
+
+
+  const data = marked.parse(cleanText);
+
+  const messageBox = this.createMessageBox();
+  const container = document.createElement("div");
+  container.className = "product-card-container";
+
+  const message = document.createElement("p");
+  message.className = "septa-septa-message";
+  message.innerHTML = data;
+
+  container.appendChild(message);
+  messageBox.appendChild(container);
+
+  this.writeChatContent(messageBox);
+}
+
 
   // Helper function to capitalize the first letter of a string
   capitalizeFirstLetter(string) {
@@ -606,16 +615,16 @@ padding: 0.5rem 1rem;
 
     // ChatHeader
     const title = document.createElement("div");
-    title.textContent = "Ask Taara";
-    title.style.color = this.theme.textColor;
-    title.style.fontWeight = "bold";
-    title.style.fontSize = "1rem";
-    this.chatHeader.appendChild(title);
-    const headerbtns = document.createElement("div");
-    headerbtns.className = "septa-header-buttons";
-    headerbtns.appendChild(this.expandButton);
-    headerbtns.appendChild(this.closeButton);
-    this.chatHeader.appendChild(headerbtns);
+        title.textContent = "Ask Taara";
+        title.style.color = this.theme.textColor;
+        title.style.fontWeight = "bold";
+        title.style.fontSize = "1rem";
+        this.chatHeader.appendChild(title);
+        const headerbtns = document.createElement("div");
+        headerbtns.className = "septa-header-buttons";
+        headerbtns.appendChild(this.expandButton);
+        headerbtns.appendChild(this.closeButton);
+        this.chatHeader.appendChild(headerbtns);
 
     // Chatbox
     this.chatbox.appendChild(this.chatHeader);
@@ -785,6 +794,7 @@ padding: 0.5rem 1rem;
         this.chatContent.appendChild(this.questionBox);
         this.questionBox.style.display = "block";
         modal.remove();
+        this.conversationId=null;
         this.chatbox.style.display = "none";
       });
 
@@ -1046,18 +1056,18 @@ padding: 0.5rem 1rem;
       message.textContent = text;
       this.chatContent.appendChild(message);
       return true;
-    } else if (sender === "septa-thinking") {
-  message.className = "septa-septa-thinking-message typing-dots";
-  // Instead of this line:
-  // message.textContent = "Taara is typing";
-  message.innerHTML = `
-    <div class="typing-indicator">
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-    </div>
-  `;
-} else if (sender === "septa") {
+   } else if (sender === "septa-thinking") {
+    message.className = "septa-septa-thinking-message typing-dots";
+    // Instead of this line:
+    // message.textContent = "Taara is typing";
+    message.innerHTML = `
+      <div class="typing-indicator">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    `;
+  } else if (sender === "septa") {
       message.className = "septa-septa-message";
       message.textContent = "";
     }
