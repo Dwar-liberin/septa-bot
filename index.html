@@ -1,67 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./style.css" />
-    <!-- <script src="./main.js"></script> -->
-    <script src="./main-v1.2.1.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/gh/Dwar-liberin/septa-bot/main-v1.2.0-beta.js"></script>   -->
-  </head>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css" />
+  <!-- <script src="./main.js"></script> -->
+  <script src="./main-v1.2.1.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/gh/Dwar-liberin/septa-bot/main-v1.2.0-beta.js"></script>   -->
+</head>
 </head>
 
 <body style="background-color: gainsboro;">
+  <div id="bg">
+    <div id="logo">
+      <a class="navbar-brand" href="https://www.tatawiron.com"><img
+          src="https://www.tatawiron.com/images/tata-steel-logo.png" alt=""></a>
+    </div>
+    <img src="https://www.tatawiron.com/images/wiron_logo.svg" id="logo2" alt="">
+  </div>
 
-  <body style="background-color: gainsboro">
-    <!-- Product Card -->
-    <!-- <div class="card-container">
-        <div class="card-img">
-            <img width="100%" src="https://picsum.photos/id/237/200/300" />
-        </div>
-        <div class="card-content">
-            <div>
-                <h2>Sample product</h2>
-                <h5>USD 50</h5>
-                <p>this is a sample product description for the product.</p>
-                <button>Add to cart</button>
-            </div>
-        </div>
+  <script>
+    const config = {
+      client_id: "12345",
+      client_name: "exampleClient",
+      access_level: 1, // Set to 0 or 1 depending on your requirement
+      url: "http://62.171.1581.44:8080/process", // Required if access_level is 1
+      accessTokenUrl: "https://resemplice.septa.live/api/access.php",
+      defaultOption: "Text",
+      selectionMode: ["Text", "Table", "Chart"],
+      // Array of standard questions
+      standardQuestions: [
+        "I need wire for my poultry farm",
+        "What offers do you have in june 2025?",
+        "I want to give feedback",
+        "मुझे अपने पोल्ट्री फार्म के लिए तार की जरूरत है",
+      ],
 
-    </div> -->
+      theme: {
+        colorCode: "#074E8D",
+        headerColor: "#074E8D",
+        textColor: "#ffffff",
+        backgroundColor: "#ecf0f1",
+        inputBorderColor: "#074E8D",
+        buttonSize: "1.125rem",
+        borderRadius: "0.375rem",
+      },
+    };
 
-    <div id="bg"></div>
+    const septaChat = new SeptaChatbot(config);
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</body>
 
-    <script>
-      const config = {
-        client_id: "12345",
-        client_name: "exampleClient",
-        access_level: 1, // Set to 0 or 1 depending on your requirement
-        url: "http://62.171.1581.44:8080/process", // Required if access_level is 1
-        accessTokenUrl: "https://resemplice.septa.live/api/access.php",
-        defaultOption: "Text",
-        selectionMode: ["Text", "Table", "Chart"],
-        // Array of standard questions
-        standardQuestions: [
-          "I need wire for my poultry farm",
-          "What offers do you have in june 2025?",
-          "I want to give feedback",
-          "मुझे अपने पोल्ट्री फार्म के लिए तार की जरूरत है",
-        ],
-
-        theme: {
-          colorCode: "#074E8D",
-          headerColor: "#074E8D",
-          textColor: "#ffffff",
-          backgroundColor: "#ecf0f1",
-          inputBorderColor: "#074E8D",
-          buttonSize: "1.125rem",
-          borderRadius: "0.375rem",
-        },
-      };
-
-      const septaChat = new SeptaChatbot(config);
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  </body>
 </html>

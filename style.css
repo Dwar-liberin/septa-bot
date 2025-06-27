@@ -109,7 +109,27 @@
 #bg{
   height: 100vh;
   width: 100vw;
-  background-image: url(assets/mainimage.png);
+  background-image: url(https://www.tatawiron.com/images/majbootkalkioar.jpg);
   background-size: cover;
   background-position: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+ #logo {
+    padding: 30px 70px;
+
+    height: 10vh;
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, .6);
+}
+/* #logo img {
+
+
+} */
+#logo2 {
+width: 40vh;
+height: 10vw;
+padding-right: 30px;
 }
