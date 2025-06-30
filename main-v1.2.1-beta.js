@@ -869,7 +869,7 @@ class SeptaChatbot {
     this.inputArea = document.createElement("div");
     this.inputArea.className = "septa-input-area";
     this.input = document.createElement("textarea"); // Use textarea for multiline input
-    this.input.className = "septa-input";
+    this.className = "septa-input";
     this.sendButton = document.createElement("button");
     this.sendButton.className = "septa-send-button";
     this.questionBox = document.createElement("div");
@@ -948,6 +948,7 @@ class SeptaChatbot {
   addEventListeners() {
     this.button.onclick = () => {
       if (this.chatbox.style.display === "none") {
+        this.conversationId = this.conversationId || "conv_" + Date.now();
         this.playSound();
       }
 
